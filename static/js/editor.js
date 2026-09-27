@@ -157,6 +157,13 @@ function installImageRemoval(editor, holder) {
 
   var activeImg = null;
 
+  function positionOverlay(imgEl) {
+    var rect = imgEl.getBoundingClientRect();
+    overlay.style.display = 'block';
+    overlay.style.left = Math.max(4, rect.right - 34) + 'px';
+    overlay.style.top = Math.max(4, rect.top + 6) + 'px';
+  }
+
   function hideOverlay() {
     overlay.style.display = 'none';
     activeImg = null;
@@ -164,21 +171,38 @@ function installImageRemoval(editor, holder) {
 
   function showOverlay(imgEl) {
     if (!imgEl.getAttribute('src')) return hideOverlay();
-    var rect = imgEl.getBoundingClientRect();
     activeImg = imgEl;
-    overlay.style.display = 'block';
-    overlay.style.left = Math.max(4, rect.right - 34) + 'px';
-    overlay.style.top = Math.max(4, rect.top + 6) + 'px';
+    positionOverlay(imgEl);
   }
 
-  holder.addEventListener('click', function (event) {
-    var target = event.target;
-    if (target && target.tagName !== 'IMG' && target.closest) {
-      target = target.closest('img');
+  function imgFromTarget(t) {
+    if (!t || t === overlay) return null;
+    if (t.tagName === 'IMG') return t;
+    if (t.closest) {
+      var inside = t.closest('img');
+      if (inside && holder.contains(inside)) return inside;
     }
-    if (target && target.tagName === 'IMG' && holder.contains(target)) {
+    return null;
+  }
+
+  function imgFromPoint(x, y) {
+    var imgs = holder.querySelectorAll('img');
+    for (var i = 0; i < imgs.length; i++) {
+      var r = imgs[i].getBoundingClientRect();
+      if (x >= r.left && x <= r.right && y >= r.top && y <= r.bottom) return imgs[i];
+    }
+    return null;
+  }
+
+  document.addEventListener('click', function (event) {
+    if (event.target === overlay) return;
+    var img = imgFromTarget(event.target);
+    if (!img && event.clientX !== undefined) {
+      img = imgFromPoint(event.clientX, event.clientY);
+    }
+    if (img && holder.contains(img)) {
       event.preventDefault();
-      showOverlay(target);
+      showOverlay(img);
     } else {
       hideOverlay();
     }
@@ -188,16 +212,17 @@ function installImageRemoval(editor, holder) {
     if (!activeImg) return hideOverlay();
     var img = activeImg;
     hideOverlay();
+    if (!document.body.contains(img)) return;
     if (!deleteImageNode(img)) {
       window.alert('Could not remove the image automatically — select it and press Delete.');
     }
   });
 
-  document.addEventListener('click', function (event) {
-    if (event.target !== overlay && !holder.contains(event.target)) hideOverlay();
+  window.addEventListener('scroll', function () {
+    if (!activeImg) return;
+    if (document.body.contains(activeImg)) positionOverlay(activeImg);
+    else hideOverlay();
   }, true);
-
-  window.addEventListener('scroll', hideOverlay, true);
 
   return { deleteImageNode: deleteImageNode, showOverlay: showOverlay, hideOverlay: hideOverlay };
 }
