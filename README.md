@@ -36,7 +36,7 @@ Optional admin account (for `/admin/` and featured-article flags):
 | Create & edit | `/new/`, `/wiki/<slug>/edit/` |
 | Search | SQLite FTS5 with highlighted snippets (`articles/search.py`) |
 | Table of contents | Auto-generated from headings, collapsible, scrollspy |
-| Images / media upload | Editor upload button → `/api/upload/image/` → `/media/uploads/` |
+| Images / media upload | Editor upload button → `/api/upload/image/` → `/media/uploads/`; click an image in the editor for a red ✕ button that removes it |
 | Categories & linking | Category chips, category pages, `[[Page]]` syntax, red links for missing pages |
 | History & revisions | `/wiki/<slug>/history/` with diff view and one-click revert |
 

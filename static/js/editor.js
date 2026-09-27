@@ -78,4 +78,126 @@
   form.addEventListener('submit', function () {
     contentField.value = editor.getHTML();
   });
+
+  window.__pediaEditor = editor;
+  installImageRemoval(editor, holder);
 })();
+
+function installImageRemoval(editor, holder) {
+  function getPMView() {
+    var candidates = [];
+    try { candidates.push(editor.view); } catch (e) {}
+    try {
+      var modeEditor = editor.getCurrentModeEditor && editor.getCurrentModeEditor();
+      if (modeEditor) candidates.push(modeEditor.view, modeEditor.editorView);
+    } catch (e) {}
+    try { candidates.push(editor.wwEditor && editor.wwEditor.view); } catch (e) {}
+    for (var i = 0; i < candidates.length; i++) {
+      var view = candidates[i];
+      if (view && view.state && view.state.doc && typeof view.dispatch === 'function') {
+        return view;
+      }
+      if (view && view.view && view.view.state && typeof view.view.dispatch === 'function') {
+        return view.view;
+      }
+    }
+    return null;
+  }
+
+  function findImageTarget(view, imgEl) {
+    var found = [];
+    view.state.doc.descendants(function (node, pos) {
+      if (node.type && node.type.name === 'image') {
+        found.push({ pos: pos, node: node, src: node.attrs && node.attrs.src });
+      }
+    });
+    if (!found.length) return null;
+
+    var domPos = null;
+    try { domPos = view.posAtDOM(imgEl, 0); } catch (e) {}
+    if (typeof domPos === 'number') {
+      var offsets = [domPos, domPos - 1, domPos + 1, domPos - 2];
+      for (var i = 0; i < offsets.length; i++) {
+        for (var j = 0; j < found.length; j++) {
+          if (found[j].pos === offsets[i]) return found[j];
+        }
+      }
+    }
+    var sameSrc = found.filter(function (f) { return f.src && f.src === imgEl.src; });
+    if (sameSrc.length === 1) return sameSrc[0];
+    if (sameSrc.length > 1 && typeof domPos === 'number') {
+      sameSrc.sort(function (a, b) {
+        return Math.abs(a.pos - domPos) - Math.abs(b.pos - domPos);
+      });
+      return sameSrc[0];
+    }
+    return found.length === 1 ? found[0] : null;
+  }
+
+  function deleteImageNode(imgEl) {
+    var view = getPMView();
+    if (!view) return false;
+    var target = findImageTarget(view, imgEl);
+    if (!target) return false;
+    try {
+      view.dispatch(view.state.tr.delete(target.pos, target.pos + target.node.nodeSize));
+      return true;
+    } catch (error) {
+      console.error('[pedia editor] image delete failed', error);
+      return false;
+    }
+  }
+
+  var overlay = document.createElement('button');
+  overlay.type = 'button';
+  overlay.className = 'image-remove-btn';
+  overlay.setAttribute('aria-label', 'Remove this image');
+  overlay.textContent = '✕';
+  document.body.appendChild(overlay);
+
+  var activeImg = null;
+
+  function hideOverlay() {
+    overlay.style.display = 'none';
+    activeImg = null;
+  }
+
+  function showOverlay(imgEl) {
+    if (!imgEl.getAttribute('src')) return hideOverlay();
+    var rect = imgEl.getBoundingClientRect();
+    activeImg = imgEl;
+    overlay.style.display = 'block';
+    overlay.style.left = Math.max(4, rect.right - 34) + 'px';
+    overlay.style.top = Math.max(4, rect.top + 6) + 'px';
+  }
+
+  holder.addEventListener('click', function (event) {
+    var target = event.target;
+    if (target && target.tagName !== 'IMG' && target.closest) {
+      target = target.closest('img');
+    }
+    if (target && target.tagName === 'IMG' && holder.contains(target)) {
+      event.preventDefault();
+      showOverlay(target);
+    } else {
+      hideOverlay();
+    }
+  }, true);
+
+  overlay.addEventListener('click', function () {
+    if (!activeImg) return hideOverlay();
+    var img = activeImg;
+    hideOverlay();
+    if (!deleteImageNode(img)) {
+      window.alert('Could not remove the image automatically — select it and press Delete.');
+    }
+  });
+
+  document.addEventListener('click', function (event) {
+    if (event.target !== overlay && !holder.contains(event.target)) hideOverlay();
+  }, true);
+
+  window.addEventListener('scroll', hideOverlay, true);
+
+  return { deleteImageNode: deleteImageNode, showOverlay: showOverlay, hideOverlay: hideOverlay };
+}
