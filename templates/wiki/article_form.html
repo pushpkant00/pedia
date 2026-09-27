@@ -4,7 +4,7 @@
 {% block title %}{{ page_title }} - {{ site_name }}{% endblock %}
 
 {% block extra_head %}
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@toast-ui/editor@3.2.2/dist/toastui-editor.min.css">
+<link rel="stylesheet" href="{% static 'vendor/toastui-editor.min.css' %}">
 {% endblock %}
 
 {% block content %}
@@ -80,6 +80,6 @@
 {% endblock %}
 
 {% block extra_js %}
-<script src="https://cdn.jsdelivr.net/npm/@toast-ui/editor@3.2.2/dist/toastui-editor.min.js"></script>
+<script src="{% static 'vendor/toastui-editor-all.min.js' %}"></script>
 <script src="{% static 'js/editor.js' %}"></script>
 {% endblock %}
