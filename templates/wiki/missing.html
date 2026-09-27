@@ -1,0 +1,20 @@
+{% extends 'wiki/base.html' %}
+
+{% block title %}{{ guessed_title }} - {{ site_name }}{% endblock %}
+
+{% block content %}
+<div class="article-layout">
+  <article class="article missing-page">
+    <h1 class="article-title">{{ guessed_title }}</h1>
+    <div class="missing-box">
+      <p><strong>{{ site_name }} does not yet have an article with this title.</strong></p>
+      <p>You can create it by clicking the button below.</p>
+      <p>
+        <a class="btn primary" href="{% url 'article_create' %}?title={{ guessed_title|urlencode }}">Create “{{ guessed_title }}”</a>
+        {% if user.is_staff %}<a class="btn" href="{% url 'admin:articles_article_add' %}">Admin create</a>{% endif %}
+      </p>
+    </div>
+    <p class="missing-hint">Other options: search for the title, or browse <a href="{% url 'category_index' %}">categories</a>.</p>
+  </article>
+</div>
+{% endblock %}

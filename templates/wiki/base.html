@@ -1,0 +1,56 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}{{ site_name }}{% endblock %}</title>
+  <link rel="stylesheet" href="{% static 'css/wiki.css' %}">
+  {% block extra_head %}{% endblock %}
+</head>
+<body>
+<header class="site-header">
+  <div class="header-inner">
+    <a href="{% url 'home' %}" class="brand">
+      <span class="brand-mark">P</span>
+      <span class="brand-text">{{ site_name }}<small>{{ site_tagline }}</small></span>
+    </a>
+    <form action="{% url 'search' %}" method="get" class="search-form" role="search">
+      <input type="search" name="q" value="{{ query|default:'' }}" placeholder="Search {{ site_name }}" aria-label="Search {{ site_name }}">
+      <button type="submit">Search</button>
+    </form>
+    <nav class="main-nav">
+      <a href="{% url 'article_create' %}">New article</a>
+      <a href="{% url 'recent_changes' %}">Recent changes</a>
+      <a href="{% url 'random_article' %}">Random</a>
+      <a href="{% url 'category_index' %}">Categories</a>
+      {% if user.is_staff %}<a href="{% url 'admin:index' %}">Admin</a>{% endif %}
+    </nav>
+  </div>
+</header>
+
+{% if messages %}
+<div class="messages">
+  {% for message in messages %}
+  <div class="message {{ message.tags }}">{{ message }}</div>
+  {% endfor %}
+</div>
+{% endif %}
+
+<main class="site-main">
+  {% block content %}{% endblock %}
+</main>
+
+<footer class="site-footer">
+  <p>Content on {{ site_name }} is available under a free licence — anyone can edit.</p>
+  <p class="footer-links">
+    <a href="{% url 'home' %}">Home</a> ·
+    <a href="{% url 'recent_changes' %}">Recent changes</a> ·
+    <a href="{% url 'category_index' %}">Categories</a> ·
+    <a href="{% url 'random_article' %}">Random article</a>
+  </p>
+</footer>
+<script src="{% static 'js/wiki.js' %}"></script>
+{% block extra_js %}{% endblock %}
+</body>
+</html>

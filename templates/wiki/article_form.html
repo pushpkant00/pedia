@@ -1,0 +1,85 @@
+{% extends 'wiki/base.html' %}
+{% load static %}
+
+{% block title %}{{ page_title }} - {{ site_name }}{% endblock %}
+
+{% block extra_head %}
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@toast-ui/editor@3.2.2/dist/toastui-editor.min.css">
+{% endblock %}
+
+{% block content %}
+<div class="edit-page">
+  <h1 class="page-title">{{ page_title }}</h1>
+
+  <form method="post" class="edit-form" id="edit-form">
+    {% csrf_token %}
+
+    {% if form.non_field_errors or form.content.errors %}
+    <div class="form-errors">
+      {% for error in form.non_field_errors %}<p>{{ error }}</p>{% endfor %}
+      {% for error in form.content.errors %}<p>{{ error }}</p>{% endfor %}
+    </div>
+    {% endif %}
+
+    <div class="field">
+      <label for="id_title">Title</label>
+      {{ form.title }}
+      {{ form.title.errors }}
+    </div>
+
+    <div class="field">
+      <label for="id_summary">Summary <span class="optional">(optional)</span></label>
+      {{ form.summary }}
+      {{ form.summary.errors }}
+    </div>
+
+    <div class="field">
+      <label>Article body</label>
+      <div class="editor-hint">
+        Use the toolbar for headings, formatting, links, lists and images.
+        Link other pages with the link button, or type <code>[[Page name]]</code> in a
+        markdown-style source edit.
+      </div>
+      <div id="editor" data-upload-url="{% url 'upload_image' %}"></div>
+      {{ form.content }}
+    </div>
+
+    <div class="field">
+      <label>Categories</label>
+      <div class="category-box">
+        <ul class="category-checks">
+          {% for category in form.categories %}
+          <li>{{ category }}</li>
+          {% endfor %}
+        </ul>
+        <div class="new-categories">
+          <label for="id_new_categories">Add new categories</label>
+          {{ form.new_categories }}
+        </div>
+      </div>
+      {{ form.categories.errors }}
+    </div>
+
+    <div class="field">
+      <label for="id_edit_summary">Edit summary <span class="optional">(optional)</span></label>
+      {{ form.edit_summary }}
+    </div>
+
+    <div class="form-actions">
+      <button type="submit" class="btn primary">
+        {% if mode == 'edit' %}Save changes{% else %}Create article{% endif %}
+      </button>
+      {% if mode == 'edit' %}
+      <a class="btn" href="{{ article.get_absolute_url }}">Cancel</a>
+      {% else %}
+      <a class="btn" href="{% url 'home' %}">Cancel</a>
+      {% endif %}
+    </div>
+  </form>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="https://cdn.jsdelivr.net/npm/@toast-ui/editor@3.2.2/dist/toastui-editor.min.js"></script>
+<script src="{% static 'js/editor.js' %}"></script>
+{% endblock %}

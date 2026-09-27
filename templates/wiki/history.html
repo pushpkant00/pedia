@@ -1,0 +1,60 @@
+{% extends 'wiki/base.html' %}
+
+{% block title %}Revision history of {{ article.title }} - {{ site_name }}{% endblock %}
+
+{% block content %}
+<div class="article-layout">
+  <div class="content-tabs">
+    <a class="tab" href="{{ article.get_absolute_url }}">Article</a>
+    <a class="tab" href="{% url 'article_edit' article.slug %}">Edit</a>
+    <span class="tab active">History</span>
+  </div>
+
+  <h1 class="article-title">Revision history of “{{ article.title }}”</h1>
+  <p class="history-hint">
+    Select two revisions to compare, or use the per-revision links below.
+    Newest revisions appear first.
+  </p>
+
+  <table class="history-table">
+    <thead>
+      <tr>
+        <th>Date</th>
+        <th>Rev</th>
+        <th>Summary</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for row in rows %}
+      {% with revision=row.revision previous=row.previous %}
+      <tr>
+        <td class="nowrap">{{ revision.created_at|date:"Y-m-d H:i" }}</td>
+        <td class="nowrap">
+          <a href="{% url 'view_revision' article.slug revision.pk %}">#{{ revision.pk }}</a>
+        </td>
+        <td>
+          {% if revision.summary %}{{ revision.summary }}{% else %}<em>no summary</em>{% endif %}
+        </td>
+        <td class="nowrap actions-cell">
+          <a href="{% url 'view_revision' article.slug revision.pk %}">view</a>
+          {% if previous %}
+          · <a href="{% url 'revision_diff' article.slug %}?old={{ previous.pk }}&amp;new={{ revision.pk }}">diff prev</a>
+          {% endif %}
+          · <a href="{% url 'revision_diff' article.slug %}?old={{ revision.pk }}&amp;new=current">diff current</a>
+          ·
+          <form method="post" action="{% url 'revert' article.slug revision.pk %}" class="inline-form"
+                onsubmit="return confirm('Revert to revision #{{ revision.pk }}? A new revision will record the rollback.');">
+            {% csrf_token %}
+            <button type="submit" class="link-button">revert</button>
+          </form>
+        </td>
+      </tr>
+      {% endwith %}
+      {% empty %}
+      <tr><td colspan="4">No revisions yet.</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

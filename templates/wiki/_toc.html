@@ -1,0 +1,11 @@
+<aside class="toc" id="toc">
+  <p class="toc-header">
+    <span>Contents</span>
+    <button type="button" class="toc-toggle" id="toc-toggle" aria-expanded="true">hide</button>
+  </p>
+  <ol class="toc-list" id="toc-list">
+    {% for entry in toc %}
+    <li class="toc-l{{ entry.level }}"><a href="#{{ entry.id }}">{{ entry.text }}</a></li>
+    {% endfor %}
+  </ol>
+</aside>

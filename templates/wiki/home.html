@@ -1,0 +1,78 @@
+{% extends 'wiki/base.html' %}
+
+{% block title %}{{ site_name }} - {{ site_tagline }}{% endblock %}
+
+{% block content %}
+<div class="home-page">
+  <section class="welcome-box">
+    <h1>Welcome to {{ site_name }}</h1>
+    <p>
+      <strong>{{ site_name }}</strong> is a free encyclopedia that anyone can edit —
+      {{ article_count }} article{{ article_count|pluralize }} and counting.
+    </p>
+    <p class="welcome-actions">
+      <a class="btn primary" href="{% url 'article_create' %}">Create an article</a>
+      <a class="btn" href="{% url 'random_article' %}">Random article</a>
+      <a class="btn" href="{% url 'recent_changes' %}">Recent changes</a>
+    </p>
+  </section>
+
+  <div class="home-columns">
+    <section class="home-panel">
+      <h2>Featured articles</h2>
+      {% if featured %}
+      <ul class="featured-list">
+        {% for article in featured %}
+        <li>
+          <a href="{{ article.get_absolute_url }}">{{ article.title }}</a>
+          {% if article.summary %}<p>{{ article.summary }}</p>{% endif %}
+        </li>
+        {% endfor %}
+      </ul>
+      {% else %}
+      <p class="panel-empty">No featured articles yet. Mark one in the <a href="{% url 'admin:index' %}">admin</a>.</p>
+      {% endif %}
+    </section>
+
+    <section class="home-panel">
+      <h2>Recently updated</h2>
+      <ul class="plain-list">
+        {% for article in recent_articles %}
+        <li>
+          <a href="{{ article.get_absolute_url }}">{{ article.title }}</a>
+          <span class="list-date">{{ article.updated_at|date:"j M Y" }}</span>
+        </li>
+        {% empty %}
+        <li class="panel-empty">Nothing here yet.</li>
+        {% endfor %}
+      </ul>
+    </section>
+
+    <section class="home-panel">
+      <h2>Latest edits</h2>
+      <ul class="plain-list">
+        {% for revision in recent_changes %}
+        <li>
+          <a href="{{ revision.article.get_absolute_url }}">{{ revision.article.title }}</a>
+          <span class="list-date">{{ revision.created_at|date:"j M Y H:i" }}</span>
+          {% if revision.summary %}<div class="list-summary">{{ revision.summary }}</div>{% endif %}
+        </li>
+        {% empty %}
+        <li class="panel-empty">No edits yet.</li>
+        {% endfor %}
+      </ul>
+    </section>
+  </div>
+
+  <section class="home-panel categories-panel">
+    <h2>Browse categories</h2>
+    <p class="category-cloud">
+      {% for category in categories %}
+      <a href="{{ category.get_absolute_url }}">{{ category.name }}<span class="count">{{ category.n }}</span></a>
+      {% empty %}
+      <span class="panel-empty">No categories yet.</span>
+      {% endfor %}
+    </p>
+  </section>
+</div>
+{% endblock %}

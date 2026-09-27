@@ -1,0 +1,42 @@
+{% extends 'wiki/base.html' %}
+
+{% block title %}Difference between revisions of {{ article.title }} - {{ site_name }}{% endblock %}
+
+{% block content %}
+<div class="article-layout">
+  <div class="content-tabs">
+    <a class="tab" href="{{ article.get_absolute_url }}">Article</a>
+    <a class="tab" href="{% url 'history' article.slug %}">History</a>
+    <span class="tab active">Diff</span>
+  </div>
+
+  <h1 class="article-title">Difference between revisions</h1>
+  <p class="diff-labels">
+    <span class="diff-old">« {{ old_label }}</span> compared with
+    <span class="diff-new">{{ new_label }} »</span>
+    of “{{ article.title }}”.
+  </p>
+
+  {% if empty %}
+  <p class="diff-empty">The two versions are identical — there is nothing to show.</p>
+  {% else %}
+  <div class="diff-box">
+    {% for line in lines %}
+      {% if line.type == 'chunk' %}
+      <div class="diff-line diff-chunk">{{ line.text }}</div>
+      {% elif line.type == 'add' %}
+      <div class="diff-line diff-add">+{{ line.text }}</div>
+      {% elif line.type == 'del' %}
+      <div class="diff-line diff-del">-{{ line.text }}</div>
+      {% else %}
+      <div class="diff-line"> {{ line.text }}</div>
+      {% endif %}
+    {% endfor %}
+  </div>
+  {% endif %}
+
+  <p class="diff-footer">
+    <a href="{% url 'history' article.slug %}">Back to revision history</a>
+  </p>
+</div>
+{% endblock %}

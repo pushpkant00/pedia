@@ -1,0 +1,38 @@
+{% extends 'wiki/base.html' %}
+
+{% block title %}{% if query %}Search results for “{{ query }}”{% else %}Search{% endif %} - {{ site_name }}{% endblock %}
+
+{% block content %}
+<div class="list-page">
+  <h1 class="page-title">{% if query %}Search results{% else %}Search{% endif %}</h1>
+
+  {% if query %}
+    <p class="results-meta">
+      {% if count %}Found {{ count }} result{{ count|pluralize }} for “{{ query }}”.{% else %}
+      No results found for “{{ query }}”.
+      {% endif %}
+    </p>
+
+    {% if not count %}
+    <div class="no-results">
+      <p>Suggestions:</p>
+      <ul>
+        <li>Make sure all words are spelled correctly.</li>
+        <li>Try different keywords.</li>
+        <li><a class="btn primary" href="{% url 'article_create' %}?title={{ query|urlencode }}">Create “{{ query }}”</a></li>
+      </ul>
+    </div>
+    {% endif %}
+
+    {% for result in results %}
+    <div class="search-result">
+      <h2><a href="{{ result.article.get_absolute_url }}">{{ result.article.title }}</a></h2>
+      <p>{{ result.snippet|safe }}</p>
+      <p class="result-updated">Last edited {{ result.article.updated_at|date:"j F Y" }}</p>
+    </div>
+    {% endfor %}
+  {% else %}
+    <p>Type a query into the search box at the top of the page.</p>
+  {% endif %}
+</div>
+{% endblock %}

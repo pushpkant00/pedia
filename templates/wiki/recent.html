@@ -1,0 +1,36 @@
+{% extends 'wiki/base.html' %}
+
+{% block title %}Recent changes - {{ site_name }}{% endblock %}
+
+{% block content %}
+<div class="list-page">
+  <h1 class="page-title">Recent changes</h1>
+  <p class="results-meta">The latest {{ revisions|length }} edits across all articles.</p>
+
+  <table class="history-table">
+    <thead>
+      <tr>
+        <th>Date</th>
+        <th>Article</th>
+        <th>Summary</th>
+        <th>Rev</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for revision in revisions %}
+      <tr>
+        <td class="nowrap">{{ revision.created_at|date:"Y-m-d H:i" }}</td>
+        <td><a href="{{ revision.article.get_absolute_url }}">{{ revision.article.title }}</a></td>
+        <td>{% if revision.summary %}{{ revision.summary }}{% else %}<em>no summary</em>{% endif %}</td>
+        <td class="nowrap">
+          <a href="{% url 'view_revision' revision.article.slug revision.pk %}">#{{ revision.pk }}</a>
+          · <a href="{% url 'revision_diff' revision.article.slug %}?old={{ revision.pk }}&amp;new=current">diff</a>
+        </td>
+      </tr>
+      {% empty %}
+      <tr><td colspan="4">No edits yet.</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

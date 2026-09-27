@@ -1,0 +1,22 @@
+{% extends 'wiki/base.html' %}
+
+{% block title %}Categories - {{ site_name }}{% endblock %}
+
+{% block content %}
+<div class="list-page">
+  <h1 class="page-title">Categories</h1>
+  <p class="results-meta">Browse articles by topic.</p>
+
+  <ul class="category-index">
+    {% for category in categories %}
+    <li>
+      <a href="{{ category.get_absolute_url }}">{{ category.name }}</a>
+      <span class="count">({{ category.n }})</span>
+      {% if category.description %}<div class="category-desc">{{ category.description }}</div>{% endif %}
+    </li>
+    {% empty %}
+    <li>No categories yet. Create one while editing an article.</li>
+    {% endfor %}
+  </ul>
+</div>
+{% endblock %}

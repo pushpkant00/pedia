@@ -1,0 +1,44 @@
+{% extends 'wiki/base.html' %}
+
+{% block title %}{{ article.title }} - {{ site_name }}{% endblock %}
+
+{% block content %}
+<div class="article-layout">
+  <div class="content-tabs">
+    <span class="tab active">Article</span>
+    <a class="tab" href="{% url 'article_edit' article.slug %}">Edit</a>
+    <a class="tab" href="{% url 'history' article.slug %}">History</a>
+  </div>
+
+  <article class="article">
+    <h1 class="article-title">{{ article.title }}</h1>
+
+    {% if revision %}
+    <div class="revision-banner">
+      From revision #{{ revision.pk }} ({{ revision.created_at|date:"j F Y, H:i" }}) —
+      <a href="{{ article.get_absolute_url }}">latest version</a>
+    </div>
+    {% endif %}
+
+    {% if toc %}{% include 'wiki/_toc.html' %}{% endif %}
+
+    <div class="article-body">
+      {{ body_html|safe }}
+    </div>
+
+    <div class="article-categories">
+      <span class="categories-label">Categories:</span>
+      {% for category in article.categories.all %}
+      <a href="{{ category.get_absolute_url }}">{{ category.name }}</a>
+      {% empty %}
+      <span class="none">uncategorised</span>
+      {% endfor %}
+    </div>
+  </article>
+
+  <p class="article-meta">
+    This page was last edited on {{ article.updated_at|date:"j F Y" }}.
+    {% if article.summary %}<br><em>{{ article.summary }}</em>{% endif %}
+  </p>
+</div>
+{% endblock %}

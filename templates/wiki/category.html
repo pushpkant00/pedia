@@ -1,0 +1,26 @@
+{% extends 'wiki/base.html' %}
+
+{% block title %}{{ category.name }} - {{ site_name }}{% endblock %}
+
+{% block content %}
+<div class="list-page">
+  <div class="content-tabs">
+    <a class="tab" href="{% url 'category_index' %}">All categories</a>
+    <span class="tab active">{{ category.name }}</span>
+  </div>
+
+  <h1 class="page-title">Category: {{ category.name }}</h1>
+  {% if category.description %}<p class="results-meta">{{ category.description }}</p>{% endif %}
+
+  <ul class="article-list">
+    {% for article in articles %}
+    <li>
+      <a href="{{ article.get_absolute_url }}">{{ article.title }}</a>
+      {% if article.summary %}<div class="list-summary">{{ article.summary }}</div>{% endif %}
+    </li>
+    {% empty %}
+    <li>No articles in this category yet. <a href="{% url 'article_create' %}">Write one</a>.</li>
+    {% endfor %}
+  </ul>
+</div>
+{% endblock %}
