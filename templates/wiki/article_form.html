@@ -36,8 +36,9 @@
     <div class="field">
       <label>Article body</label>
       <div class="editor-hint">
-        Use the toolbar for headings, formatting, links, lists and images.
-        Link other pages with the link button, or type <code>[[Page name]]</code> in a
+        Use the toolbar for headings, formatting, links, lists and images —
+        the image dialog accepts several files at once. Link other pages with the
+        link button, or type <code>[[Page name]]</code> in a
         markdown-style source edit. To remove an image, click it and press the red
         ✕ button (or select it and press Delete).
       </div>
@@ -82,5 +83,6 @@
 
 {% block extra_js %}
 <script src="{% static 'vendor/toastui-editor-all.min.js' %}"></script>
-<script src="{% static 'js/editor.js' %}?v=2"></script>
+<script src="{% static 'js/editor.js' %}?v=3"></script>
+{% if request.GET.selftest %}<script src="{% static 'js/edit-selftest.js' %}"></script>{% endif %}
 {% endblock %}

@@ -1,13 +1,28 @@
+function getCookie(name) {
+  var match = document.cookie.match(new RegExp('(?:^|; )' + name + '=([^;]*)'));
+  return match ? decodeURIComponent(match[1]) : '';
+}
+
+function uploadImageFile(holder, file) {
+  var data = new FormData();
+  data.append('file', file);
+  return fetch(holder.getAttribute('data-upload-url'), {
+    method: 'POST',
+    body: data,
+    headers: { 'X-CSRFToken': getCookie('csrftoken') }
+  }).then(function (response) {
+    return response.json().then(function (payload) {
+      if (!response.ok) throw new Error(payload.error || 'Upload failed');
+      return payload;
+    });
+  });
+}
+
 (function () {
   var form = document.getElementById('edit-form');
   var contentField = document.getElementById('id_content');
   var holder = document.getElementById('editor');
   if (!form || !contentField || !holder) return;
-
-  function getCookie(name) {
-    var match = document.cookie.match(new RegExp('(?:^|; )' + name + '=([^;]*)'));
-    return match ? decodeURIComponent(match[1]) : '';
-  }
 
   function enablePlainEditor(message, error) {
     console.error('[pedia editor] ' + message, error || '');
@@ -47,19 +62,7 @@
       usageStatistics: false,
       hooks: {
         addImageBlobHook: function (blob, callback) {
-          var data = new FormData();
-          data.append('file', blob);
-          fetch(holder.getAttribute('data-upload-url'), {
-            method: 'POST',
-            body: data,
-            headers: { 'X-CSRFToken': getCookie('csrftoken') }
-          })
-            .then(function (response) {
-              return response.json().then(function (payload) {
-                if (!response.ok) throw new Error(payload.error || 'Upload failed');
-                return payload;
-              });
-            })
+          uploadImageFile(holder, blob)
             .then(function (payload) {
               callback(payload.url, blob.name || payload.alt || 'image');
             })
@@ -156,23 +159,55 @@ function installImageRemoval(editor, holder) {
   document.body.appendChild(overlay);
 
   var activeImg = null;
-
-  function positionOverlay(imgEl) {
-    var rect = imgEl.getBoundingClientRect();
-    overlay.style.display = 'block';
-    overlay.style.left = Math.max(4, rect.right - 34) + 'px';
-    overlay.style.top = Math.max(4, rect.top + 6) + 'px';
-  }
+  var ticker = 0;
 
   function hideOverlay() {
     overlay.style.display = 'none';
     activeImg = null;
+    if (ticker) {
+      clearInterval(ticker);
+      ticker = 0;
+    }
+  }
+
+  function getClipHost() {
+    var all = holder.getElementsByTagName('*');
+    for (var i = 0; i < all.length; i++) {
+      var el = all[i];
+      if (el.scrollHeight > el.clientHeight + 40 && el.clientHeight > 150) return el;
+    }
+    return holder;
+  }
+
+  function positionOverlay(imgEl) {
+    var rect = imgEl.getBoundingClientRect();
+    var host = getClipHost().getBoundingClientRect();
+    var visTop = Math.max(rect.top, host.top);
+    var visBottom = Math.min(rect.bottom, host.bottom);
+    var visLeft = Math.max(rect.left, host.left);
+    var visRight = Math.min(rect.right, host.right);
+    if (visBottom - visTop < 12 || visRight - visLeft < 12) return hideOverlay();
+    var left = Math.min(Math.max(visRight - 34, host.left + 4), host.right - 32);
+    var top = Math.min(Math.max(visTop + 6, host.top + 4), host.bottom - 32);
+    overlay.style.display = 'block';
+    overlay.style.left = left + 'px';
+    overlay.style.top = top + 'px';
+  }
+
+  function startTicker() {
+    if (!ticker) {
+      ticker = setInterval(function () {
+        if (activeImg && document.body.contains(activeImg)) positionOverlay(activeImg);
+        else hideOverlay();
+      }, 250);
+    }
   }
 
   function showOverlay(imgEl) {
     if (!imgEl.getAttribute('src')) return hideOverlay();
     activeImg = imgEl;
     positionOverlay(imgEl);
+    if (activeImg) startTicker();
   }
 
   function imgFromTarget(t) {
@@ -194,7 +229,66 @@ function installImageRemoval(editor, holder) {
     return null;
   }
 
+  function ensureFileInputMultiple() {
+    var fi = document.getElementById('toastuiImageFileInput');
+    if (fi && !fi.multiple) fi.multiple = true;
+  }
+
+  function insertImage(url, alt) {
+    if (editor.eventEmitter && typeof editor.eventEmitter.emit === 'function') {
+      editor.eventEmitter.emit('command', 'addImage', { imageUrl: url, altText: alt || 'image' });
+    } else if (typeof editor.exec === 'function') {
+      editor.exec('addImage', { imageUrl: url, altText: alt || 'image' });
+    }
+  }
+
+  function insertFiles(files) {
+    var altInput = document.getElementById('toastuiAltTextInput');
+    var alt = (altInput && altInput.value) || '';
+    var chain = Promise.resolve();
+    Array.prototype.forEach.call(files, function (file) {
+      chain = chain.then(function () {
+        return uploadImageFile(holder, file).then(function (payload) {
+          insertImage(payload.url, alt || file.name || payload.alt || 'image');
+        });
+      });
+    });
+    chain = chain.then(function () {
+      var popup = document.querySelector('.toastui-editor-popup');
+      var open = popup && popup.style.display !== 'none' &&
+        getComputedStyle(popup).display !== 'none';
+      if (open && editor.eventEmitter && typeof editor.eventEmitter.emit === 'function') {
+        editor.eventEmitter.emit('closePopup');
+      }
+    });
+    chain.catch(function (error) {
+      window.alert('Image upload failed: ' + error.message);
+    });
+    return chain;
+  }
+
   document.addEventListener('click', function (event) {
+    ensureFileInputMultiple();
+    setTimeout(ensureFileInputMultiple, 0);
+
+    var btn = event.target && event.target.closest ? event.target.closest('button') : null;
+    if (btn && /ok-button/.test(btn.className || '') && btn.closest('.toastui-editor-popup')) {
+      var fi = document.getElementById('toastuiImageFileInput');
+      if (fi && fi.files && fi.files.length > 1) {
+        event.preventDefault();
+        event.stopImmediatePropagation();
+        var picked = Array.prototype.slice.call(fi.files);
+        try { fi.value = ''; } catch (e) {}
+        insertFiles(picked);
+        return;
+      }
+    }
+
+    if (event.target && event.target.closest && event.target.closest('.toastui-editor-popup')) {
+      hideOverlay();
+      return;
+    }
+
     if (event.target === overlay) return;
     var img = imgFromTarget(event.target);
     if (!img && event.clientX !== undefined) {
@@ -206,6 +300,34 @@ function installImageRemoval(editor, holder) {
     } else {
       hideOverlay();
     }
+  }, true);
+
+  document.addEventListener('drop', function (event) {
+    var files = event.dataTransfer && event.dataTransfer.files;
+    if (!files || files.length < 2) return;
+    var images = Array.prototype.filter.call(files, function (f) {
+      return f.type && f.type.indexOf('image/') === 0;
+    });
+    if (images.length < 2) return;
+    event.preventDefault();
+    event.stopImmediatePropagation();
+    insertFiles(images);
+  }, true);
+
+  document.addEventListener('paste', function (event) {
+    var items = event.clipboardData && event.clipboardData.items;
+    if (!items) return;
+    var images = [];
+    for (var i = 0; i < items.length; i++) {
+      if (items[i].kind === 'file' && items[i].type.indexOf('image/') === 0) {
+        var f = items[i].getAsFile();
+        if (f) images.push(f);
+      }
+    }
+    if (images.length < 2) return;
+    event.preventDefault();
+    event.stopImmediatePropagation();
+    insertFiles(images);
   }, true);
 
   overlay.addEventListener('click', function () {
@@ -223,6 +345,12 @@ function installImageRemoval(editor, holder) {
     if (document.body.contains(activeImg)) positionOverlay(activeImg);
     else hideOverlay();
   }, true);
+
+  window.addEventListener('resize', function () {
+    if (activeImg && document.body.contains(activeImg)) positionOverlay(activeImg);
+  });
+
+  ensureFileInputMultiple();
 
   return { deleteImageNode: deleteImageNode, showOverlay: showOverlay, hideOverlay: hideOverlay };
 }
