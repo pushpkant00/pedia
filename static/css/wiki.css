@@ -671,9 +671,10 @@ a.tab { color: var(--link); }
   position: fixed; inset: 0; z-index: 99999;
   display: flex; align-items: center; justify-content: center;
   background: rgba(0, 0, 0, 0.88); opacity: 0; pointer-events: none;
+  visibility: hidden;
   transition: opacity 0.2s ease;
 }
-.article-lightbox.active { opacity: 1; pointer-events: auto; }
+.article-lightbox.active { opacity: 1; pointer-events: auto; visibility: visible; }
 .article-lightbox img { max-height: 90vh; max-width: 90vw; object-fit: contain; box-shadow: 0 8px 40px rgba(0,0,0,0.45); border-radius: 2px; }
 .lightbox-close {
   position: absolute; top: 16px; right: 16px; z-index: 2;
