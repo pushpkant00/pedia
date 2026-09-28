@@ -169,6 +169,7 @@
       cont.scrollTop = 420;
       await sleep(500);
 
+      var clickedImg = null;
       var clickRes = await (async function () {
         var imgs = Array.from(document.querySelectorAll('.ProseMirror img'));
         if (!imgs.length) return { err: 'no imgs' };
@@ -177,6 +178,7 @@
           return (rb.width * rb.height) - (ra.width * ra.height);
         });
         var img = imgs[0];
+        clickedImg = img;
         var r = img.getBoundingClientRect();
         var hr = cont.getBoundingClientRect();
         var visTop = Math.max(r.top, hr.top), visBottom = Math.min(r.bottom, hr.bottom);
@@ -196,7 +198,7 @@
       rec('image-visible-click', !!clickRes && !clickRes.empty, clickRes);
       await sleep(400);
 
-      var overlay = document.querySelector('.image-remove-btn');
+      var overlay = document.querySelector('.image-tools');
       var ostate = null;
       if (overlay) {
         var orct = overlay.getBoundingClientRect();
@@ -214,6 +216,118 @@
       } else {
         rec('overlay-inside-editor-box', false, 'overlay missing');
       }
+
+      // --- image toolbar: blank-area click, zoom, download ---
+      var zinBtn = overlay && overlay.querySelector('[aria-label="Zoom in"]');
+      var zoutBtn = overlay && overlay.querySelector('[aria-label="Zoom out"]');
+      var dlBtn = overlay && overlay.querySelector('[aria-label="Download image"]');
+      var rmBtn = overlay && overlay.querySelector('.image-remove-btn');
+      rec('image-toolbar-options', !!(zinBtn && zoutBtn && dlBtn && rmBtn), {
+        zoomIn: !!zinBtn, zoomOut: !!zoutBtn, download: !!dlBtn, remove: !!rmBtn
+      });
+
+      // blank area beside the image (full width, text still on the next line):
+      // toolbar must show there, caret must not move
+      var selBefore = (function () {
+        var s = window.getSelection();
+        return s && s.rangeCount ? { node: s.anchorNode, off: s.anchorOffset } : null;
+      })();
+      var blankInfo = null;
+      if (clickedImg) {
+        var rb2 = clickedImg.getBoundingClientRect();
+        var hrb = cont.getBoundingClientRect();
+        var bx = rb2.right + 14;
+        var by = Math.max(rb2.top, hrb.top) + Math.min(30, rb2.height / 2);
+        var bel = document.elementFromPoint(bx, by);
+        var bev = { bubbles: true, cancelable: true, clientX: bx, clientY: by };
+        blankInfo = {
+          x: Math.round(bx), y: Math.round(by),
+          top: bel ? (bel.tagName + '|' + String(bel.className || '').slice(0, 30)) : null,
+          probe: (typeof __pediaAdjProbe === 'function') ? __pediaAdjProbe(bx, by) : 'no-probe'
+        };
+        (bel || clickedImg).dispatchEvent(new MouseEvent('mousedown', bev));
+        (bel || clickedImg).dispatchEvent(new MouseEvent('mouseup', bev));
+        (bel || clickedImg).dispatchEvent(new MouseEvent('click', bev));
+      }
+      await sleep(400);
+      var selAfter = (function () {
+        var s = window.getSelection();
+        return s && s.rangeCount ? { node: s.anchorNode, off: s.anchorOffset } : null;
+      })();
+      var caretMoved = selAfter
+        ? (!selBefore || selAfter.node !== selBefore.node || selAfter.off !== selBefore.off)
+        : false;
+      var toolsShown = !!overlay && overlay.style.display !== 'none' &&
+        getComputedStyle(overlay).display !== 'none';
+      rec('blank-click-shows-toolbar-no-caret', !!clickedImg && toolsShown && !caretMoved,
+          { blank: blankInfo, shown: toolsShown, caretMoved: caretMoved });
+
+      // zoom: out first (makes room), then in must widen again
+      if (zinBtn && zoutBtn && clickedImg) {
+        var w0 = clickedImg.getBoundingClientRect().width;
+        var rzo = zoutBtn.getBoundingClientRect();
+        var ezo = { bubbles: true, cancelable: true, clientX: rzo.left + 4, clientY: rzo.top + 4 };
+        zoutBtn.dispatchEvent(new MouseEvent('mousedown', ezo));
+        zoutBtn.dispatchEvent(new MouseEvent('mouseup', ezo));
+        zoutBtn.dispatchEvent(new MouseEvent('click', ezo));
+        await sleep(350);
+        var wo = clickedImg.getBoundingClientRect().width;
+        rec('zoom-out-narrows-image', wo < w0 - 2, {
+          from: Math.round(w0), to: Math.round(wo), lastZoom: window.__pediaLastZoom || null
+        });
+        var rzi = zinBtn.getBoundingClientRect();
+        var ezi = { bubbles: true, cancelable: true, clientX: rzi.left + 4, clientY: rzi.top + 4 };
+        zinBtn.dispatchEvent(new MouseEvent('mousedown', ezi));
+        zinBtn.dispatchEvent(new MouseEvent('mouseup', ezi));
+        zinBtn.dispatchEvent(new MouseEvent('click', ezi));
+        await sleep(350);
+        var wi = clickedImg.getBoundingClientRect().width;
+        rec('zoom-in-widens-image', wi > wo + 2, {
+          from: Math.round(wo), to: Math.round(wi),
+          style: clickedImg.style.width, attr: clickedImg.getAttribute('width'),
+          holderW: Math.round(document.getElementById('editor').getBoundingClientRect().width),
+          pW: Math.round(clickedImg.parentElement.getBoundingClientRect().width),
+          lastZoom: window.__pediaLastZoom || null
+        });
+      } else {
+        rec('zoom-out-narrows-image', false, 'missing button or image');
+        rec('zoom-in-widens-image', false, 'missing button or image');
+      }
+
+      var dlOk = false, dlDetail = 'missing';
+      if (dlBtn && clickedImg) {
+        dlOk = !!dlBtn.getAttribute('download') &&
+          (dlBtn.href === clickedImg.src || dlBtn.href === (clickedImg.currentSrc || ''));
+        dlDetail = {
+          download: dlBtn.getAttribute('download'),
+          href: (dlBtn.getAttribute('href') || '').slice(0, 90)
+        };
+      }
+      rec('download-link-prepared', dlOk, dlDetail);
+
+
+      // zoomed width must survive getHTML() (saved as width="N", allowed by sanitizer)
+      var serOk = false, serDetail = 'skipped';
+      if (clickedImg && typeof syncImageWidths === 'function') {
+        var restoreW = clickedImg.getAttribute('width');
+        var restoreStyleW = clickedImg.style.width;
+        applyImageWidth(clickedImg, 137);
+        try {
+          var ser = syncImageWidths(window.__pediaEditor.getHTML());
+          serOk = /width="137"/.test(ser);
+          serDetail = serOk ? null : ser.replace(/\s+/g, ' ').slice(0, 160);
+        } catch (e) { serDetail = String(e); }
+        if (restoreW) {
+          clickedImg.setAttribute('width', restoreW);
+          clickedImg.style.width = restoreStyleW || (restoreW + 'px');
+          clickedImg.style.height = 'auto';
+        } else {
+          clickedImg.removeAttribute('width');
+          clickedImg.style.width = '';
+          clickedImg.style.height = '';
+        }
+      }
+      rec('zoom-width-serialized-on-save', serOk, serDetail);
 
       cont.scrollTop = cont.scrollHeight;
       await sleep(600);
@@ -263,9 +377,10 @@
         rec('overlay-shown-for-delete', !!shown, shown ? null : 'not shown');
         if (shown) {
           var beforeDelete = document.querySelectorAll('.ProseMirror img').length;
-          var or2 = overlay.getBoundingClientRect();
-          overlay.dispatchEvent(new MouseEvent('mousedown', { bubbles: true, cancelable: true, clientX: or2.left + 10, clientY: or2.top + 10 }));
-          overlay.dispatchEvent(new MouseEvent('click', { bubbles: true, cancelable: true, clientX: or2.left + 10, clientY: or2.top + 10 }));
+          var delBtn = overlay.querySelector('.image-remove-btn');
+          var or2 = delBtn.getBoundingClientRect();
+          delBtn.dispatchEvent(new MouseEvent('mousedown', { bubbles: true, cancelable: true, clientX: or2.left + 10, clientY: or2.top + 10 }));
+          delBtn.dispatchEvent(new MouseEvent('click', { bubbles: true, cancelable: true, clientX: or2.left + 10, clientY: or2.top + 10 }));
           var gone = await waitFor(function () {
             return document.querySelectorAll('.ProseMirror img').length < beforeDelete;
           }, 8000);

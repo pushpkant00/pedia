@@ -611,25 +611,59 @@ a.tab { color: var(--link); }
 }
 .footer-links { margin-top: 6px; }
 
-/* ---------- Image remove overlay (editor) ---------- */
+/* ---------- Image tools toolbar (editor) ---------- */
 
-.image-remove-btn {
+.image-tools {
   position: fixed;
   z-index: 9999;
   display: none;
-  width: 28px;
-  height: 28px;
+  align-items: center;
+  gap: 3px;
+  padding: 3px;
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.28);
+}
+
+.image-tools .image-tool-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  padding: 0;
+  border: 1px solid var(--border-light);
+  border-radius: 3px;
+  background: #fff;
+  color: var(--text);
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1;
+  text-decoration: none;
+  cursor: pointer;
+}
+.image-tools .image-tool-btn:hover {
+  background: var(--light);
+  border-color: var(--border);
+}
+
+.image-remove-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
   padding: 0;
   border: 1.5px solid var(--red);
   border-radius: 50%;
   background: #fff2f2;
   color: var(--red);
-  font-size: 15px;
+  font-size: 13px;
   font-weight: 700;
-  line-height: 26px;
+  line-height: 1;
   text-align: center;
   cursor: pointer;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.25);
 }
 .image-remove-btn:hover { background: var(--red); color: #fff; }
 
