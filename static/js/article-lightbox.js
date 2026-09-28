@@ -9,13 +9,23 @@
   var body = document.querySelector('.article-body');
 
   function open(src, alt, index, total) {
-    imgEl.src = src;
-    imgEl.alt = alt || '';
-    downloadLink.href = src;
-    downloadLink.setAttribute('download', (src.split('/').pop() || 'image').replace(/\?.*$/, ''));
-    captionEl.textContent = (total > 1 ? 'Image ' + index + ' / ' + total + ' — ' : '') + (alt || 'Image');
-    lb.classList.add('active');
-    document.body.style.overflow = 'hidden';
+    try {
+      if (!lb || !imgEl) return;
+      imgEl.src = src || '';
+      imgEl.alt = alt || '';
+      if (downloadLink) {
+        downloadLink.href = src || '#';
+        try { downloadLink.setAttribute('download', (String(src).split('/').pop() || 'image').replace(/\?.*$/, '')); } catch (e) {}
+      }
+      if (captionEl) {
+        captionEl.textContent = (total > 1 ? 'Image ' + index + ' / ' + total + ' — ' : '') + (alt || 'Image');
+      }
+      lb.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    } catch (e) {
+      console.error('[pedia lightbox] open failed', e);
+      document.body.style.overflow = '';
+    }
   }
   function close() {
     lb.classList.remove('active');
