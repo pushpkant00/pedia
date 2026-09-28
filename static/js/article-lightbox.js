@@ -35,8 +35,10 @@
   if (body) {
     body.addEventListener('click', function (e) {
       var img = e.target.closest ? e.target.closest('.article-body img, article img') : null;
-      if (!img) return;
-      var imgs = Array.from(body.querySelectorAll('img'));
+    if (!img) return;
+    // Skip broken/missing images to avoid frozen overlay
+    if (!img.src || (img.complete && img.naturalWidth === 0)) return;
+    var imgs = Array.from(body.querySelectorAll('img'));
       var idx = imgs.indexOf(img) + 1;
       open(img.src, img.alt || '', idx, imgs.length);
       e.preventDefault();
