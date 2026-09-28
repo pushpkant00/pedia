@@ -620,17 +620,18 @@ a.tab { color: var(--link); }
   width: 28px;
   height: 28px;
   padding: 0;
-  border: none;
+  border: 1.5px solid var(--red);
   border-radius: 50%;
-  background: var(--red);
-  color: #fff;
+  background: #fff2f2;
+  color: var(--red);
   font-size: 15px;
-  line-height: 28px;
+  font-weight: 700;
+  line-height: 26px;
   text-align: center;
   cursor: pointer;
-  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.4);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.25);
 }
-.image-remove-btn:hover { background: #b02525; }
+.image-remove-btn:hover { background: var(--red); color: #fff; }
 
 /* ---------- Responsive ---------- */
 

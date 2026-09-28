@@ -253,14 +253,6 @@ function installImageRemoval(editor, holder) {
         });
       });
     });
-    chain = chain.then(function () {
-      var popup = document.querySelector('.toastui-editor-popup');
-      var open = popup && popup.style.display !== 'none' &&
-        getComputedStyle(popup).display !== 'none';
-      if (open && editor.eventEmitter && typeof editor.eventEmitter.emit === 'function') {
-        editor.eventEmitter.emit('closePopup');
-      }
-    });
     chain.catch(function (error) {
       window.alert('Image upload failed: ' + error.message);
     });

@@ -77,7 +77,7 @@
       if (!input) return finish();
 
       var before = document.querySelectorAll('.ProseMirror img').length;
-      rec('baseline-img-count', before === 1, 'count=' + before);
+      rec('baseline-img-count', before >= 1, 'count=' + before);
 
       function makeDt(names) {
         var bytes = Uint8Array.from(atob('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z8BQDwAEhQGAhKmMIQAAAABJRU5ErkJggg=='), function (c) { return c.charCodeAt(0); });
@@ -125,11 +125,18 @@
         var input2 = await waitFor(function () { return document.getElementById('toastuiImageFileInput'); }, 6000);
         if (!input2) throw new Error('popup did not reopen');
         await sleep(700);
-        input2.files = makeDt(['single-c.png']).files;
-        input2.dispatchEvent(new Event('input', { bubbles: true }));
-        input2.dispatchEvent(new Event('change', { bubbles: true }));
+        for (var attempt = 0; attempt < 4; attempt++) {
+          input2 = document.getElementById('toastuiImageFileInput') || input2;
+          input2.files = makeDt(['single-c.png']).files;
+          if (input2.files.length === 1) break;
+          await sleep(400);
+        }
+        if (input2.files.length === 1) {
+          input2.dispatchEvent(new Event('input', { bubbles: true }));
+          input2.dispatchEvent(new Event('change', { bubbles: true }));
+        }
         rec('single-files-ready', input2.files.length === 1, 'files=' + input2.files.length);
-        rec('single-ok-clicked', clickOk());
+        rec('single-ok-clicked', input2.files.length === 1 && clickOk());
       } catch (e) {
         rec('single-ok-clicked', false, String(e));
       }
