@@ -4,6 +4,7 @@
     <button type="button" class="toc-toggle" id="toc-toggle" aria-expanded="true">hide</button>
   </p>
   <ol class="toc-list" id="toc-list">
+    <li class="toc-l1 toc-top"><a href="#top">(Top)</a></li>
     {% for entry in toc %}
     <li class="toc-l{{ entry.level }}"><a href="#{{ entry.id }}">{{ entry.text }}</a></li>
     {% endfor %}

@@ -309,22 +309,21 @@ a.tab { color: var(--link); }
   width: 240px;
   max-height: calc(100vh - 32px);
   overflow-y: auto;
-  background: var(--light);
-  border: 1px solid var(--border);
   margin: 6px 20px 14px 0;
-  padding: 10px 14px;
+  padding: 0;
   font-size: 14px;
   line-height: 1.5;
 }
 .toc-header {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-start;
   align-items: center;
+  gap: 10px;
   margin: 0 0 6px;
   font-weight: 700;
-  text-align: center;
+  text-align: left;
 }
-.toc-header span { flex: 1; text-align: center; }
+.toc-header span { text-align: left; }
 .toc-toggle {
   border: 1px solid var(--border-light);
   background: #fff;
@@ -341,6 +340,7 @@ a.tab { color: var(--link); }
   counter-reset: toc;
 }
 .toc-list a { color: var(--link); }
+.toc-top a { font-weight: 700; color: var(--text); }
 .toc-l1, .toc-l2, .toc-l3, .toc-l4, .toc-l5, .toc-l6 { margin: 3px 0; }
 .toc-list a.toc-active { font-weight: 700; color: var(--text); }
 .toc-l2 { padding-left: 14px; }
