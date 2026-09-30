@@ -222,39 +222,91 @@ Mumbai. Several more crossings are proposed or under construction, including the
 <tr><th class="infobox-label">Total length</th><td>5.6 km</td></tr>
 <tr><th class="infobox-label">Lanes</th><td>8</td></tr>
 <tr><th class="infobox-label">Longest span</th><td>250 m (twin spans)</td></tr>
+<tr><th class="infobox-label">Height (tallest tower)</th><td>128 m</td></tr>
 <tr><th class="infobox-header" colspan="2">History</th></tr>
-<tr><th class="infobox-label">Opened</th><td>2009</td></tr>
+<tr><th class="infobox-label">Construction</th><td>2000–2009</td></tr>
+<tr><th class="infobox-label">Opened</th><td>30 June 2009 (first four lanes)</td></tr>
+<tr><th class="infobox-label">Fully opened</th><td>24 March 2010</td></tr>
+<tr><th class="infobox-label">Construction cost</th><td>₹16 billion</td></tr>
 <tr><th class="infobox-label">Toll (car)</th><td>₹85</td></tr>
-<tr><th class="infobox-label">Owner</th><td>MSRDC</td></tr>
+<tr><th class="infobox-label">Owner</th><td>Government of Maharashtra (MSRDC)</td></tr>
 </table>
 <p>The <strong>Bandra–Worli Sea Link</strong>, officially the <strong>Rajiv Gandhi Sea
 Link</strong>, is a 5.6 km long, 8-lane cable-stayed bridge that crosses Mahim Bay, linking
-Bandra in the western suburbs of Mumbai with Worli in South Mumbai. Opened in phases from
-2009, it was the longest sea bridge in India until the
-<a href="/wiki/mumbai-trans-harbour-link/">Mumbai Trans Harbour Link</a> opened in 2024.</p>
+Bandra in the western suburbs of Mumbai with Worli in South Mumbai. It was the first
+cable-stayed bridge built in open seas in India, and it cut the peak-hour trip between
+Bandra and Worli from 20–30 minutes to about 10 minutes. It was the longest sea bridge in
+India until the <a href="/wiki/mumbai-trans-harbour-link/">Mumbai Trans Harbour Link</a>
+opened in 2024.</p>
 
 <h2 id="history">History</h2>
-<p>The crossing was long planned as part of the proposed Western Freeway. Construction began
-in 2000 and was carried out by Hindustan Construction Company, after which work was halted
-and resumed several times. The first phase opened on 30 June 2009 and the bridge became
-fully operational on 24 March 2010.</p>
+<p>The crossing was planned as the first phase of the proposed Western Freeway; until it
+opened, the 1845 <a href="/wiki/mahim-causeway/">Mahim Causeway</a> was the only road link
+between Bandra and Worli. The foundation stone was laid in 1999 and construction began in
+2000, with the contract awarded to Hindustan Construction Company (HCC) and project
+management led by the UK offices of Dar Al-Handasah. The work was split into five
+separately contracted packages — the Love Grove flyover, the Bandra cloverleaf interchange,
+the Bandra approach road, the central cable-stayed spans and viaducts, and improvements to
+Khan Abdul Ghaffar Khan Road.</p>
+<p>The project was originally estimated at ₹6.6 billion and was to be finished in five
+years. Numerous public interest litigations delayed it by roughly five years and pushed the
+cost to about ₹16 billion, with interest costs alone accounting for some ₹7 billion. The
+first four of the eight lanes opened to traffic on 30 June 2009, the final connection was
+made on 20 April 2009, and all eight lanes were operational from 24 March 2010. The bridge
+was named the Rajiv Gandhi Sea Link, with the name reported on 8 July 2009.</p>
 
 <h2 id="design">Design</h2>
+<p>The bridge is 5.6 km long and 2 × 20 m wide, carrying eight lanes (four in each
+direction) on twin parallel decks. Its two cable-stayed sections are:</p>
 <ul>
-<li>Two cable-stayed main spans of 250 m each, with concrete pylons rising about 126 m.</li>
-<li>Composite steel-concrete deck; pre-stressed concrete-steel viaducts approach the main
-spans at either end.</li>
-<li>Eight lanes (four in each direction), carried on twin parallel decks.</li>
+<li><strong>Bandra channel</strong> — 600 m between expansion joints with a span arrangement
+of 50–250–250–50 m, an inverted "Y" centre tower rising 128 m above pile-cap level and 264
+stay cables.</li>
+<li><strong>Worli channel</strong> — 250 m between expansion joints with a span arrangement
+of 50–50–150–50–50 m, an "I" shaped centre tower 55 m tall and 160 stay cables.</li>
+</ul>
+<p>The approach viaducts are arranged in 300 m units of six 50 m spans. In all, 604 piles
+were driven 6–34 m into the substrate — 120 piles of 2 m diameter under the cable-stayed
+bridges and 484 piles of 1.5 m diameter under the viaducts. A precast yard cast 2,342
+concrete-steel segments, each weighing 110–140 tonnes.</p>
+
+<h2 id="construction">Construction</h2>
+<ul>
+<li>Viaducts were built span-by-span using a custom self-launching overhead gantry crane,
+while the cable-supported superstructure was erected by the balanced cantilever method.</li>
+<li>The firm Doka of Austria supplied automatic climbing shutter formwork for the pylons.</li>
+<li>Marine geology was difficult: basalts, volcanic tuffs, breccias, weathered rock and up
+to 9 m of marine soil, with the foundation bed exposed at low tide and submerged at high
+tide. Main tower foundations used 2 m diameter drilled shafts built in the dry with
+cofferdams and a tremie seal.</li>
+<li>It was the first infrastructure project in Mumbai to use seismic arresters, allowing it
+to withstand earthquakes up to magnitude 7.0.</li>
 </ul>
 
-<h2 id="route">Route and tolls</h2>
-<p>The sea link carries traffic between Bandra and Worli across Mahim Bay, relieving the old
-<a href="/wiki/mahim-causeway/">Mahim Causeway</a> route through Dadar. It is maintained by
-the Maharashtra State Road Development Corporation (MSRDC). Toll rates for cars are ₹85,
-₹110 for light commercial vehicles and ₹145 for heavy vehicles. The bridge now forms part of
-Mumbai's Coastal Road, which continues north towards Kandivali.</p>
+<h2 id="operation">Operation and safety</h2>
+<p>The bridge is owned by the Government of Maharashtra and maintained by the Maharashtra
+State Road Development Corporation (MSRDC), and is insured by New India Assurance. As of
+2018 average daily traffic was about 32,312 vehicles. An intelligent bridge management
+system provides CCTV cameras, traffic counters, variable message signs, weather monitoring,
+emergency telephones and a fibre-optic control network; vehicles are scanned by mobile
+explosive detectors, and the tower pillars are ringed by explosion- and collision-resistant
+buoys. The Bandra toll plaza has 16 approach lanes with electronic, smart-card and cash
+lanes. Two- and three-wheelers are prohibited.</p>
 
-<p>See also [[Bridges in Mumbai]] and [[Mumbai Trans Harbour Link]].</p>
+<h2 id="tolls">Tolls</h2>
+<p>Toll rates in force from 1 April 2021 are ₹85 for a car single journey, ₹127.5 return
+and ₹212.5 for a day pass; ₹130 / ₹195 / ₹325 for tempos and light commercial vehicles;
+and ₹175 / ₹262.5 / ₹437.5 for trucks and buses.</p>
+
+<h2 id="criticism">Criticism</h2>
+<p>The delay and cost overrun were criticised in the press, and traffic has repeatedly run
+below projections: daily traffic fell from 45,952 vehicles in 2011–12 to 40,808 in 2012–13,
+with high tolls, congestion at Pedder Road and the Lalbaug flyover cited as factors. The
+Worli end is a bottleneck — most of the 4.7 km main length has four lanes each way, but
+about 1.2 km at the Worli end narrows to two lanes, causing southbound backlogs.</p>
+
+<p>The bridge now forms part of Mumbai's Coastal Road, which continues north towards
+Kandivali. See also [[Bridges in Mumbai]] and [[Mumbai Trans Harbour Link]].</p>
 ''',
     },
     {
@@ -275,40 +327,82 @@ Mumbai's Coastal Road, which continues north towards Kandivali.</p>
 <tr><th class="infobox-label">Total length</th><td>18.2 km</td></tr>
 <tr><th class="infobox-label">Lanes</th><td>6</td></tr>
 <tr><th class="infobox-label">Longest span</th><td>180 m</td></tr>
+<tr><th class="infobox-label">Piers in water</th><td>1,089</td></tr>
+<tr><th class="infobox-label">Design life</th><td>100+ years</td></tr>
 <tr><th class="infobox-header" colspan="2">History</th></tr>
-<tr><th class="infobox-label">Opened</th><td>January 2024</td></tr>
-<tr><th class="infobox-label">Toll (car)</th><td>₹200</td></tr>
+<tr><th class="infobox-label">Construction</th><td>April 2018 – December 2023</td></tr>
+<tr><th class="infobox-label">Opened</th><td>12 January 2024</td></tr>
+<tr><th class="infobox-label">Construction cost</th><td>₹17,843 crore</td></tr>
+<tr><th class="infobox-label">Toll (car)</th><td>₹200 (single), ₹300 (return)</td></tr>
 <tr><th class="infobox-label">Owner</th><td>MMRDA</td></tr>
 </table>
 <p>The <strong>Mumbai Trans Harbour Link</strong> (<strong>MTHL</strong>), officially the
 <strong>Atal Bihari Vajpayee Sewri–Nhava Sheva Atal Setu</strong> and colloquially known as
 <strong>Atal Setu</strong>, is an 18.2 km, 6-lane expressway bridge connecting Mumbai with
-Navi Mumbai across Thane Creek. It is the longest sea bridge in India and among the longest
-in the world.</p>
+Navi Mumbai across Thane Creek. It is the longest sea bridge in India and the world's 12th
+longest sea bridge, with a capacity of 70,000 vehicles a day.</p>
 
 <h2 id="history">History</h2>
-<p>The Mumbai Metropolitan Region Development Authority (MMRDA) studied the need for a new
-Mumbai–Navi Mumbai crossing from the 1990s: the six older Thane Creek bridges were narrow,
-aged and carrying traffic well beyond their capacity. Construction began on 24 April 2018
-and was delayed by the COVID-19 pandemic. The bridge opened in January 2024 at a cost of
-more than ₹17,000 crore.</p>
+<p>The need for a new crossing was identified early: a 1963 transport study for Greater
+Bombay proposed a sea link to Uran. From the 1990s the Mumbai Metropolitan Region
+Development Authority (MMRDA) studied ways to decongest the city, noting that the six older
+Thane Creek crossings were narrow, aged and overloaded. Attempts to build the link in 2004,
+2005 and 2008 all failed at the bidding stage, and in 2011 the mandate passed from the
+MSRDC to MMRDA.</p>
+<p>MMRDA appointed Arup and KPMG for a feasibility study in 2011. The project received
+state clearance in October 2012, environmental clearance from the MoEFCC on 23 October 2012
+(with 11 conditions, including replanting five times the mangroves destroyed), coastal
+regulation zone clearance in July 2013, and finance ministerial approval for viability gap
+funding in January 2013. After bidders failed to come forward under a public–private
+partnership, MMRDA scrapped the PPP model in August 2013 and switched to an engineering,
+procurement and construction (EPC) contract. The Japan International Cooperation Agency
+(JICA) agreed in February 2016 to fund 80% of the cost at 1–1.4% interest, formalised on 9
+May 2016.</p>
+<p>Prime Minister Narendra Modi laid the foundation stone on 24 December 2016. Contracts
+were awarded in November 2017, construction began on 24 April 2018, and work was delayed
+about eight months by the COVID-19 pandemic. Construction finished in December 2023 and the
+bridge was inaugurated by Prime Minister Modi on 12 January 2024, at a total cost of ₹17,843
+crore (US$1.9 billion).</p>
 
 <h2 id="design">Design</h2>
 <ul>
-<li>18.2 km long, with a longest span of 180 m.</li>
-<li>Precast segmental concrete-steel viaduct, built on 1,089 piers standing in the water.</li>
-<li>Crosses Thane Creek north of Elephanta Island; water depths reach 47 m.</li>
-<li>Design life of more than 100 years.</li>
-<li>Three interchanges: Sewri, Shivajinagar (Ulwe) and Chirle.</li>
+<li>18.2 km long and 27 m wide, with a longest span of 180 m, plus two emergency lanes,
+edge strips, crash barriers and noise barriers on both sides.</li>
+<li>Precast segmental concrete-steel viaduct built on 1,089 piers standing in water, in
+depths reaching 47 m; clearance height 25 m.</li>
+<li>Crosses Thane Creek north of Elephanta Island; design life of more than 100 years.</li>
+<li>Engineering design by COWI, PADECO, Dar Al-Handasah and T. Y. Lin International; the
+general consultant was a consortium of AECOM, Padeco, Dar Al-Handasah and T. Y. Lin.</li>
+<li>Three interchanges: the Sewri Y-interchange, the Shivajinagar (Ulwe) cloverleaf and the
+Chirle interchange, plus a connector to the Mumbai–Pune Expressway.</li>
 </ul>
+<p>The construction was split into three civil packages: package 1 (10.38 km across Thane
+Creek and the Sewri interchange) went to a consortium of Larsen &amp; Toubro and IHI
+Corporation for ₹7,637.3 crore; package 2 (7.807 km and the Shivaji Nagar interchange) to
+Tata Projects and Daewoo E&amp;C for ₹5,612.61 crore; and package 3 (3.613 km of viaducts
+at Chirle) to L&amp;T for ₹1,013.79 crore. Package 4, the intelligent transport system,
+tolling, lighting and buildings, went to Strabag for ₹427 crore.</p>
+
+<h2 id="environment">Environment</h2>
+<p>The route passes the Sewri–Mahul mudflats, an Important Bird Area used by some 150 bird
+species and by an estimated 20,000–30,000 lesser and greater flamingos. Conditions attached
+to the clearances required noise barriers, silencers on construction equipment, no dredging
+or reclamation, consultation with the Bombay Natural History Society over migratory birds,
+and at least ₹335 crore spent on an environment management programme. The finished bridge
+carries noise and vision barriers, and a bird watching platform.</p>
 
 <h2 id="route">Route</h2>
 <p>The bridge begins at Sewri in South Mumbai, linked to the Eastern Freeway, and ends at
-Chirle near Nhava Sheva in Uran taluka, where it joins NH-348. A single car journey typically
-costs ₹200 in toll. By crossing directly over the harbour, Atal Setu has cut the road journey
-between Mumbai and Navi Mumbai to a fraction of the time required via the older
+Chirle near Nhava Sheva in Uran taluka, where it joins NH-348. A single car journey
+typically costs ₹200 in toll. By crossing directly over the harbour, Atal Setu has cut the
+road journey between Mumbai and Navi Mumbai to a fraction of the time required via the older
 <a href="/wiki/vashi-bridge/">Vashi Bridge</a> and <a href="/wiki/airoli-bridge/">Airoli
 Bridge</a> crossings.</p>
+
+<h2 id="tolls">Tolls</h2>
+<p>Toll rates are ₹200 single / ₹300 return for a car, ₹320 / ₹480 for a bus, ₹655 / ₹985
+for a light commercial vehicle, ₹715 / ₹1,075 for a truck, ₹1,030 / ₹1,545 for a heavy-duty
+truck and ₹1,255 / ₹1,885 for an oversized truck.</p>
 
 <p>See also [[Bridges in Mumbai]] and [[Bandra Worli Sea Link|Bandra–Worli Sea Link]].</p>
 ''',
@@ -511,7 +605,7 @@ class Command(BaseCommand):
                     article.summary = data['summary']
                     article.is_featured = data['featured']
                     article.categories.set(categories)
-                    article.save_with_revision(summary='Added infobox')
+                    article.save_with_revision(summary='Expanded article with Wikipedia detail')
                     self.stdout.write(self.style.SUCCESS(f'  updated: {article.title}'))
                 else:
                     self.stdout.write(f'  current: {article.title}')
