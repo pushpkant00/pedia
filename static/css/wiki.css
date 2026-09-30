@@ -42,7 +42,7 @@ img { max-width: 100%; height: auto; }
 
 .header-inner {
   max-width: 1180px;
-  margin: 0;
+  margin: 0 auto;
   padding: 10px 20px;
   display: flex;
   align-items: center;
@@ -129,7 +129,7 @@ img { max-width: 100%; height: auto; }
 
 .messages {
   max-width: 1180px;
-  margin: 14px 0 0;
+  margin: 14px auto 0;
   padding: 0 20px;
 }
 .message {
@@ -146,7 +146,7 @@ img { max-width: 100%; height: auto; }
 
 .site-main {
   max-width: 1180px;
-  margin: 0;
+  margin: 0 auto;
   padding: 24px 20px 60px;
 }
 
