@@ -6,7 +6,11 @@
 <div class="article-layout">
   <div class="content-tabs">
     <a class="tab" href="{{ article.get_absolute_url }}">Article</a>
+    {% if can_edit %}
     <a class="tab" href="{% url 'article_edit' article.slug %}">Edit</a>
+    {% elif not is_signed_in %}
+    <a class="tab" href="{% url 'login' %}?next={{ article.get_absolute_url }}edit/">Log in to edit</a>
+    {% endif %}
     <span class="tab active">History</span>
   </div>
 
@@ -21,6 +25,7 @@
       <tr>
         <th>Date</th>
         <th>Rev</th>
+        <th>Editor</th>
         <th>Summary</th>
         <th>Actions</th>
       </tr>
@@ -33,6 +38,11 @@
         <td class="nowrap">
           <a href="{% url 'view_revision' article.slug revision.pk %}">#{{ revision.pk }}</a>
         </td>
+        <td class="nowrap">
+          {{ revision.editor.username|default:"—" }}
+          {% if revision.status == 'pending' %}<span class="badge warn">pending</span>{% endif %}
+          {% if revision.status == 'rejected' %}<span class="badge danger">rejected</span>{% endif %}
+        </td>
         <td>
           {% if revision.summary %}{{ revision.summary }}{% else %}<em>no summary</em>{% endif %}
         </td>
@@ -42,17 +52,19 @@
           · <a href="{% url 'revision_diff' article.slug %}?old={{ previous.pk }}&amp;new={{ revision.pk }}">diff prev</a>
           {% endif %}
           · <a href="{% url 'revision_diff' article.slug %}?old={{ revision.pk }}&amp;new=current">diff current</a>
+          {% if can_edit %}
           ·
           <form method="post" action="{% url 'revert' article.slug revision.pk %}" class="inline-form"
                 onsubmit="return confirm('Revert to revision #{{ revision.pk }}? A new revision will record the rollback.');">
             {% csrf_token %}
             <button type="submit" class="link-button">revert</button>
           </form>
+          {% endif %}
         </td>
       </tr>
       {% endwith %}
       {% empty %}
-      <tr><td colspan="4">No revisions yet.</td></tr>
+      <tr><td colspan="5">No revisions yet.</td></tr>
       {% endfor %}
     </tbody>
   </table>

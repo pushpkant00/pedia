@@ -78,6 +78,61 @@ function syncImageWidths(html) {
   }
 }
 
+function readPrefs(holder) {
+  return {
+    mode: holder.getAttribute('data-mode') || 'wysiwyg',
+    toolbar: holder.getAttribute('data-toolbar') || 'full',
+    theme: holder.getAttribute('data-theme') || 'light',
+    uploads: holder.getAttribute('data-uploads') !== 'off',
+    autosave: holder.getAttribute('data-autosave') !== 'off',
+    interval: parseInt(holder.getAttribute('data-autosave-interval'), 10) || 30,
+    draftKey: 'pedia-draft:' + (holder.getAttribute('data-draft-key') || location.pathname)
+  };
+}
+
+function readDraft(prefs, serverContent) {
+  if (!prefs.autosave) return null;
+  try {
+    var raw = localStorage.getItem(prefs.draftKey);
+    if (!raw) return null;
+    var draft = JSON.parse(raw);
+    if (!draft || !draft.html) {
+      localStorage.removeItem(prefs.draftKey);
+      return null;
+    }
+    // Restore only while the article still matches what the draft was started from.
+    if ((draft.seed || '') !== (serverContent || '')) {
+      localStorage.removeItem(prefs.draftKey);
+      return null;
+    }
+    if (draft.html === serverContent) return null;
+    return draft;
+  } catch (error) {
+    return null;
+  }
+}
+
+function showDraftNotice(holder, draft, prefs) {
+  var notice = document.createElement('div');
+  notice.className = 'editor-draft-notice';
+  var text = document.createElement('span');
+  var when = new Date(draft.at);
+  text.textContent = 'Unsaved draft restored (saved ' +
+    (isNaN(when.getTime()) ? 'earlier' : when.toLocaleString()) + ').';
+  var discard = document.createElement('button');
+  discard.type = 'button';
+  discard.className = 'link-button';
+  discard.textContent = 'discard draft';
+  discard.addEventListener('click', function () {
+    try { localStorage.removeItem(prefs.draftKey); } catch (error) {}
+    window.location.reload();
+  });
+  notice.appendChild(text);
+  notice.appendChild(document.createTextNode(' '));
+  notice.appendChild(discard);
+  holder.parentNode.insertBefore(notice, holder);
+}
+
 (function () {
   var form = document.getElementById('edit-form');
   var contentField = document.getElementById('id_content');
@@ -111,39 +166,97 @@ function syncImageWidths(html) {
     return;
   }
 
-  var editor;
-  var savedWidths = extractImageWidths(contentField.value);
-  try {
-    editor = new toastui.Editor({
-      el: holder,
-      height: '540px',
-      initialEditType: 'wysiwyg',
-      previewStyle: 'vertical',
-      initialValue: contentField.value || '',
-      usageStatistics: false,
-      hooks: {
-        addImageBlobHook: function (blob, callback) {
-          uploadImageFile(holder, blob)
-            .then(function (payload) {
-              callback(payload.url, blob.name || payload.alt || 'image');
-            })
-            .catch(function (error) {
-              window.alert('Image upload failed: ' + error.message);
-            });
-          return false;
-        }
+  var prefs = readPrefs(holder);
+  var serverContent = contentField.value || '';
+  var draft = readDraft(prefs, serverContent);
+  var initialValue = draft ? draft.html : serverContent;
+
+  var FULL_ITEMS = [['heading', 'bold', 'italic', 'strike'], ['hr', 'quote'],
+                    ['ul', 'ol', 'task', 'indent', 'outdent'], ['table', 'image', 'link'],
+                    ['code', 'codeblock'], ['scrollSync']];
+  var COMPACT_ITEMS = [['heading', 'bold', 'italic', 'link', 'image'], ['ol', 'ul', 'code']];
+
+  function withoutImage(groups) {
+    return groups
+      .map(function (group) {
+        return group.filter(function (name) { return name !== 'image'; });
+      })
+      .filter(function (group) { return group.length > 0; });
+  }
+
+  var editorOptions = {
+    el: holder,
+    height: '540px',
+    initialEditType: prefs.mode === 'markdown' ? 'markdown' : 'wysiwyg',
+    previewStyle: 'vertical',
+    initialValue: initialValue,
+    usageStatistics: false,
+    theme: prefs.theme === 'dark' ? 'dark' : 'light'
+  };
+
+  var needCustomToolbar = prefs.toolbar === 'compact' || !prefs.uploads;
+  if (needCustomToolbar) {
+    var items = prefs.toolbar === 'compact' ? COMPACT_ITEMS : FULL_ITEMS;
+    if (!prefs.uploads) {
+      items = withoutImage(items);
+    }
+    editorOptions.toolbarItems = items;
+  }
+  if (prefs.uploads) {
+    editorOptions.hooks = {
+      addImageBlobHook: function (blob, callback) {
+        uploadImageFile(holder, blob)
+          .then(function (payload) {
+            callback(payload.url, blob.name || payload.alt || 'image');
+          })
+          .catch(function (error) {
+            window.alert('Image upload failed: ' + error.message);
+          });
+        return false;
       }
-    });
+    };
+  }
+
+  var editor;
+  var savedWidths = extractImageWidths(serverContent);
+  try {
+    editor = new toastui.Editor(editorOptions);
   } catch (error) {
     enablePlainEditor('The visual editor failed to start.', error);
     return;
   }
 
+  if (draft) {
+    showDraftNotice(holder, draft, prefs);
+  }
+
+  function saveDraftNow() {
+    if (!prefs.autosave) return;
+    try {
+      var html = editor.getHTML();
+      if (!html || html === '<p></p>' || html === serverContent) return;
+      localStorage.setItem(prefs.draftKey, JSON.stringify({
+        html: html,
+        at: Date.now(),
+        seed: serverContent
+      }));
+    } catch (error) { /* storage full or unavailable */ }
+  }
+
+  if (prefs.autosave) {
+    setInterval(saveDraftNow, prefs.interval * 1000);
+    window.addEventListener('pagehide', saveDraftNow);
+  }
+
   form.addEventListener('submit', function () {
     contentField.value = syncImageWidths(editor.getHTML());
+    if (prefs.autosave) {
+      try { localStorage.removeItem(prefs.draftKey); } catch (error) {}
+    }
   });
 
   window.__pediaEditor = editor;
+  window.__pediaEditorPrefs = prefs;
   imageWidths = savedWidths;
   restoreImageWidths(savedWidths);
   setTimeout(function () { restoreImageWidths(savedWidths); }, 150);

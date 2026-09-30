@@ -12,6 +12,7 @@
       <tr>
         <th>Date</th>
         <th>Article</th>
+        <th>Editor</th>
         <th>Summary</th>
         <th>Rev</th>
       </tr>
@@ -21,6 +22,11 @@
       <tr>
         <td class="nowrap">{{ revision.created_at|date:"Y-m-d H:i" }}</td>
         <td><a href="{{ revision.article.get_absolute_url }}">{{ revision.article.title }}</a></td>
+        <td class="nowrap">
+          {{ revision.editor.username|default:"—" }}
+          {% if revision.status == 'pending' %}<span class="badge warn">pending</span>{% endif %}
+          {% if revision.status == 'rejected' %}<span class="badge danger">rejected</span>{% endif %}
+        </td>
         <td>{% if revision.summary %}{{ revision.summary }}{% else %}<em>no summary</em>{% endif %}</td>
         <td class="nowrap">
           <a href="{% url 'view_revision' revision.article.slug revision.pk %}">#{{ revision.pk }}</a>
@@ -28,7 +34,7 @@
         </td>
       </tr>
       {% empty %}
-      <tr><td colspan="4">No edits yet.</td></tr>
+      <tr><td colspan="5">No edits yet.</td></tr>
       {% endfor %}
     </tbody>
   </table>

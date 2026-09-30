@@ -7,13 +7,23 @@
   <section class="welcome-box">
     <h1>Welcome to {{ site_name }}</h1>
     <p>
-      <strong>{{ site_name }}</strong> is a free encyclopedia that anyone can edit —
+      <strong>{{ site_name }}</strong> is a free encyclopedia —
       {{ article_count }} article{{ article_count|pluralize }} and counting.
+      {% if can_edit %}Your account can edit any of them.{% elif is_signed_in %}Your account has read-only access.{% else %}<a href="{% url 'register' %}">Create an account</a> to edit.{% endif %}
     </p>
     <p class="welcome-actions">
+      {% if can_edit %}
       <a class="btn primary" href="{% url 'article_create' %}">Create an article</a>
+      {% elif is_signed_in %}
+      <span class="btn disabled" title="Your account has read-only access">Create an article</span>
+      {% else %}
+      <a class="btn primary" href="{% url 'login' %}?next=/new/">Sign in to edit</a>
+      {% endif %}
       <a class="btn" href="{% url 'random_article' %}">Random article</a>
       <a class="btn" href="{% url 'recent_changes' %}">Recent changes</a>
+      {% if is_admin %}
+      <a class="btn" href="{% url 'review_queue' %}">Review queue{% if pending_review_count %} ({{ pending_review_count }}){% endif %}</a>
+      {% endif %}
     </p>
   </section>
 
@@ -30,7 +40,9 @@
         {% endfor %}
       </ul>
       {% else %}
-      <p class="panel-empty">No featured articles yet. Mark one in the <a href="{% url 'admin:index' %}">admin</a>.</p>
+      <p class="panel-empty">No featured articles yet.
+        {% if is_admin %}Pick some in the <a href="{% url 'review_queue' %}">review queue</a>.{% endif %}
+      </p>
       {% endif %}
     </section>
 
@@ -55,6 +67,7 @@
         <li>
           <a href="{{ revision.article.get_absolute_url }}">{{ revision.article.title }}</a>
           <span class="list-date">{{ revision.created_at|date:"j M Y H:i" }}</span>
+          <span class="list-editor">{{ revision.editor.username|default:"—" }}{% if revision.status == 'pending' %} <span class="badge warn">pending</span>{% endif %}</span>
           {% if revision.summary %}<div class="list-summary">{{ revision.summary }}</div>{% endif %}
         </li>
         {% empty %}

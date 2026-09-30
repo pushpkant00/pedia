@@ -1,0 +1,137 @@
+{% extends 'wiki/base.html' %}
+
+{% block title %}Review queue - {{ site_name }}{% endblock %}
+
+{% block content %}
+<div class="review-page">
+  <h1 class="page-title">Review queue</h1>
+  <p class="results-meta">
+    Approving publishes the edit straight away; rejecting keeps the live article unchanged.
+    Diffs compare the proposal with the current version.
+  </p>
+
+  {% if queue_empty %}
+  <div class="review-empty">
+    <p><strong>The queue is clear.</strong> Nothing is waiting for review.</p>
+  </div>
+  {% endif %}
+
+  {% if pending_revisions %}
+  <section class="review-section">
+    <h2>Pending edits <span class="badge">{{ pending_revisions|length }}</span></h2>
+    <table class="history-table">
+      <thead>
+        <tr>
+          <th>Article</th>
+          <th>Editor</th>
+          <th>Summary</th>
+          <th>Submitted</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for revision in pending_revisions %}
+        <tr>
+          <td><a href="{{ revision.article.get_absolute_url }}">{{ revision.article.title }}</a></td>
+          <td class="nowrap">{{ revision.editor.username|default:"unknown" }}</td>
+          <td>{% if revision.summary %}{{ revision.summary }}{% else %}<em>no summary</em>{% endif %}</td>
+          <td class="nowrap">{{ revision.created_at|date:"Y-m-d H:i" }}</td>
+          <td class="nowrap actions-cell">
+            <a href="{% url 'revision_diff' revision.article.slug %}?old=current&amp;new={{ revision.pk }}">diff</a>
+            ·
+            <form method="post" action="{% url 'review_revision' revision.pk %}" class="inline-form">
+              {% csrf_token %}
+              <input type="hidden" name="next" value="/review/">
+              <button type="submit" name="action" value="approve" class="link-button approve">approve</button>
+            </form>
+            ·
+            <form method="post" action="{% url 'review_revision' revision.pk %}" class="inline-form"
+                  onsubmit="return confirm('Reject this edit? The live article stays as it is.');">
+              {% csrf_token %}
+              <input type="hidden" name="next" value="/review/">
+              <button type="submit" name="action" value="reject" class="link-button reject">reject</button>
+            </form>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </section>
+  {% endif %}
+
+  {% if pending_articles %}
+  <section class="review-section">
+    <h2>Pending drafts <span class="badge">{{ pending_articles|length }}</span></h2>
+    <table class="history-table">
+      <thead>
+        <tr>
+          <th>Title</th>
+          <th>Author</th>
+          <th>Created</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for draft in pending_articles %}
+        <tr>
+          <td><a href="{{ draft.get_absolute_url }}">{{ draft.title }}</a></td>
+          <td class="nowrap">{{ draft.created_by.username|default:"unknown" }}</td>
+          <td class="nowrap">{{ draft.created_at|date:"Y-m-d H:i" }}</td>
+          <td class="nowrap actions-cell">
+            <form method="post" action="{% url 'review_draft' draft.pk %}" class="inline-form">
+              {% csrf_token %}
+              <button type="submit" name="action" value="approve" class="link-button approve">publish</button>
+            </form>
+            ·
+            <form method="post" action="{% url 'review_draft' draft.pk %}" class="inline-form"
+                  onsubmit="return confirm('Reject this draft? It will be deleted.');">
+              {% csrf_token %}
+              <button type="submit" name="action" value="reject" class="link-button reject">reject</button>
+            </form>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </section>
+  {% endif %}
+
+  <section class="review-section">
+    <h2>Featured articles</h2>
+    <p class="results-meta">Featured articles appear at the top of the main page (six at most look best).</p>
+    <table class="history-table">
+      <thead>
+        <tr>
+          <th>Article</th>
+          <th>Status</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for article in all_articles %}
+        <tr>
+          <td>
+            <a href="{{ article.get_absolute_url }}">{{ article.title }}</a>
+            {% if article.is_pending %}<span class="badge warn">draft</span>{% endif %}
+          </td>
+          <td class="nowrap">
+            {% if article.is_featured %}<span class="badge ok">featured</span>{% else %}<span class="badge">not featured</span>{% endif %}
+          </td>
+          <td class="nowrap">
+            <form method="post" action="{% url 'featured_toggle' article.slug %}" class="inline-form">
+              {% csrf_token %}
+              <input type="hidden" name="next" value="/review/">
+              <button type="submit" class="link-button">
+                {% if article.is_featured %}unfeature{% else %}feature{% endif %}
+              </button>
+            </form>
+          </td>
+        </tr>
+        {% empty %}
+        <tr><td colspan="3">No articles yet.</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </section>
+</div>
+{% endblock %}

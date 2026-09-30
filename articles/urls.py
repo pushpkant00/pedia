@@ -15,6 +15,10 @@ urlpatterns = [
     path('wiki/<slug:slug>/history/diff/', views.revision_diff, name='revision_diff'),
     path('wiki/<slug:slug>/history/<int:rev_id>/', views.view_revision, name='view_revision'),
     path('wiki/<slug:slug>/history/<int:rev_id>/revert/', views.revert, name='revert'),
+    path('wiki/<slug:slug>/feature/', views.featured_toggle, name='featured_toggle'),
     path('wiki/<slug:slug>/', views.article_detail, name='article_detail'),
+    path('review/', views.review_queue, name='review_queue'),
+    path('review/revision/<int:rev_id>/', views.review_revision, name='review_revision'),
+    path('review/draft/<int:article_id>/', views.review_draft, name='review_draft'),
     path('api/upload/image/', views.upload_image, name='upload_image'),
 ]

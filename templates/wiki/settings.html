@@ -1,0 +1,74 @@
+{% extends 'wiki/base.html' %}
+
+{% block title %}Editor settings - {{ site_name }}{% endblock %}
+
+{% block content %}
+<div class="settings-page">
+  <h1 class="page-title">Editor settings</h1>
+  <p class="results-meta">
+    These preferences apply to your account ({{ user.username }}, {{ viewer_role }})
+    and control how the article editor behaves for you.
+  </p>
+
+  <form method="post" class="settings-form">
+    {% csrf_token %}
+
+    {% if form.non_field_errors %}
+    <div class="form-errors">{% for error in form.non_field_errors %}<p>{{ error }}</p>{% endfor %}</div>
+    {% endif %}
+
+    <fieldset>
+      <legend>Editor</legend>
+      <div class="field">
+        <label for="id_initial_mode">{{ form.initial_mode.label }}</label>
+        {{ form.initial_mode }}
+        {{ form.initial_mode.errors }}
+      </div>
+      <div class="field">
+        <label for="id_toolbar">{{ form.toolbar.label }}</label>
+        {{ form.toolbar }}
+        {{ form.toolbar.errors }}
+      </div>
+      <div class="field">
+        <label for="id_theme">{{ form.theme.label }}</label>
+        {{ form.theme }}
+        {{ form.theme.errors }}
+      </div>
+      <div class="field checkbox-field">
+        <label>{{ form.uploads }} {{ form.uploads.label }}</label>
+        {% if form.uploads.help_text %}<p class="field-hint">{{ form.uploads.help_text }}</p>{% endif %}
+        {{ form.uploads.errors }}
+      </div>
+    </fieldset>
+
+    <fieldset>
+      <legend>Drafts</legend>
+      <div class="field checkbox-field">
+        <label>{{ form.autosave }} {{ form.autosave.label }}</label>
+        {% if form.autosave.help_text %}<p class="field-hint">{{ form.autosave.help_text }}</p>{% endif %}
+        {{ form.autosave.errors }}
+      </div>
+      <div class="field">
+        <label for="id_autosave_interval">{{ form.autosave_interval.label }}</label>
+        {{ form.autosave_interval }}
+        {{ form.autosave_interval.errors }}
+      </div>
+    </fieldset>
+
+    <fieldset>
+      <legend>Defaults</legend>
+      <div class="field">
+        <label for="id_default_summary">{{ form.default_summary.label }}</label>
+        {{ form.default_summary }}
+        {% if form.default_summary.help_text %}<p class="field-hint">{{ form.default_summary.help_text }}</p>{% endif %}
+        {{ form.default_summary.errors }}
+      </div>
+    </fieldset>
+
+    <div class="form-actions">
+      <button type="submit" class="btn primary">Save settings</button>
+      <a class="btn" href="{% url 'home' %}">Cancel</a>
+    </div>
+  </form>
+</div>
+{% endblock %}

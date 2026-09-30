@@ -1,0 +1,62 @@
+{% extends 'wiki/base.html' %}
+
+{% block title %}Editors - {{ site_name }}{% endblock %}
+
+{% block content %}
+<div class="people-page">
+  <h1 class="page-title">Editors</h1>
+  <p class="results-meta">
+    Change what each account may do. <strong>Admins</strong> publish immediately and run
+    the review queue, <strong>editors</strong> submit edits for approval,
+    <strong>viewers</strong> read only. Blocking suspends all editing rights.
+  </p>
+
+  <table class="history-table people-table">
+    <thead>
+      <tr>
+        <th>Account</th>
+        <th>Role</th>
+        <th>Approved edits</th>
+        <th>Access</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for row in rows %}
+      {% with profile=row.profile %}
+      <tr>
+        <td class="nowrap">
+          <strong>{{ profile.user.username }}</strong>
+          {% if profile.user == user %}<span class="you-tag">you</span>{% endif %}
+        </td>
+        <td>
+          <form method="post" class="role-form" action="{% url 'people' %}">
+            {% csrf_token %}
+            <input type="hidden" name="user_id" value="{{ profile.user.pk }}">
+            <select name="role" class="input-summary" aria-label="Role for {{ profile.user.username }}">
+              {% for value, label in roles %}
+              <option value="{{ value }}" {% if profile.role == value %}selected{% endif %}>{{ label }}</option>
+              {% endfor %}
+            </select>
+            <label class="check-label">
+              <input type="checkbox" name="is_blocked" {% if profile.is_blocked %}checked{% endif %}>
+              blocked
+            </label>
+            <button type="submit" class="btn small">Save</button>
+          </form>
+        </td>
+        <td class="nowrap">{{ row.edits }}</td>
+        <td class="nowrap">
+          {% if profile.is_blocked %}<span class="badge warn">blocked</span>
+          {% else %}<span class="badge ok">{{ profile.display_role|lower }}</span>{% endif %}
+        </td>
+        <td class="nowrap">joined {{ profile.created_at|date:"j M Y" }}</td>
+      </tr>
+      {% endwith %}
+      {% empty %}
+      <tr><td colspan="5">No accounts yet.</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

@@ -5,11 +5,21 @@
 
 {% block extra_head %}
 <link rel="stylesheet" href="{% static 'vendor/toastui-editor.min.css' %}">
+{% if editor_prefs.theme == 'dark' %}
+<link rel="stylesheet" href="{% static 'vendor/toastui-editor-dark.css' %}">
+{% endif %}
 {% endblock %}
 
 {% block content %}
 <div class="edit-page">
   <h1 class="page-title">{{ page_title }}</h1>
+
+  {% if not publishes_now %}
+  <div class="message info review-notice">
+    Your changes go to the <strong>review queue</strong> — an admin will publish them.
+    The live article stays as it is until then.
+  </div>
+  {% endif %}
 
   <form method="post" class="edit-form" id="edit-form">
     {% csrf_token %}
@@ -42,7 +52,15 @@
         markdown-style source edit. Click an image to zoom in or out, download
         it, or remove it with the red ✕ button.
       </div>
-      <div id="editor" data-upload-url="{% url 'upload_image' %}"></div>
+      <div id="editor"
+           data-upload-url="{% url 'upload_image' %}"
+           data-mode="{{ editor_prefs.initial_mode|default:'wysiwyg' }}"
+           data-toolbar="{{ editor_prefs.toolbar|default:'full' }}"
+           data-theme="{{ editor_prefs.theme|default:'light' }}"
+           data-uploads="{% if editor_prefs.uploads == False %}off{% else %}on{% endif %}"
+           data-autosave="{% if editor_prefs.autosave == False %}off{% else %}on{% endif %}"
+           data-autosave-interval="{{ editor_prefs.autosave_interval|default:'30' }}"
+           data-draft-key="{{ request.get_full_path }}"></div>
       {{ form.content }}
     </div>
 
@@ -57,6 +75,9 @@
         <div class="new-categories">
           <label for="id_new_categories">Add new categories</label>
           {{ form.new_categories }}
+          {% if not publishes_now %}
+          <p class="field-hint">Category changes are applied when your edit is approved.</p>
+          {% endif %}
         </div>
       </div>
       {{ form.categories.errors }}
@@ -69,7 +90,8 @@
 
     <div class="form-actions">
       <button type="submit" class="btn primary">
-        {% if mode == 'edit' %}Save changes{% else %}Create article{% endif %}
+        {% if not publishes_now %}Submit for review
+        {% elif mode == 'edit' %}Save changes{% else %}Create article{% endif %}
       </button>
       {% if mode == 'edit' %}
       <a class="btn" href="{{ article.get_absolute_url }}">Cancel</a>
@@ -83,6 +105,6 @@
 
 {% block extra_js %}
 <script src="{% static 'vendor/toastui-editor-all.min.js' %}"></script>
-<script src="{% static 'js/editor.js' %}?v=4"></script>
+<script src="{% static 'js/editor.js' %}?v=6"></script>
 {% if request.GET.selftest %}<script src="{% static 'js/edit-selftest.js' %}"></script>{% endif %}
 {% endblock %}

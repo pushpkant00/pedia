@@ -5,7 +5,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>{% block title %}{{ site_name }}{% endblock %}</title>
-  <link rel="stylesheet" href="{% static 'css/wiki.css' %}?v=10">
+  <link rel="stylesheet" href="{% static 'css/wiki.css' %}?v=11">
   {% block extra_head %}{% endblock %}
 </head>
 <body>
@@ -20,11 +20,26 @@
       <button type="submit">Search</button>
     </form>
     <nav class="main-nav">
-      <a href="{% url 'article_create' %}">New article</a>
+      {% if can_edit %}<a href="{% url 'article_create' %}">New article</a>{% endif %}
       <a href="{% url 'recent_changes' %}">Recent changes</a>
       <a href="{% url 'random_article' %}">Random</a>
       <a href="{% url 'category_index' %}">Categories</a>
+      {% if is_admin %}
+      <a href="{% url 'review_queue' %}" class="review-link">Review{% if pending_review_count %}<span class="badge">{{ pending_review_count }}</span>{% endif %}</a>
+      <a href="{% url 'people' %}">Editors</a>
+      {% endif %}
       {% if user.is_staff %}<a href="{% url 'admin:index' %}">Admin</a>{% endif %}
+      <span class="auth-nav">
+      {% if is_signed_in %}
+        <a href="{% url 'editor_settings' %}" class="auth-who">{{ user.username }}<small>{{ viewer_role }}</small></a>
+        <form method="post" action="{% url 'logout' %}" class="inline-form auth-logout">{% csrf_token %}
+          <button type="submit" class="link-button">sign out</button>
+        </form>
+      {% else %}
+        <a href="{% url 'login' %}">Log in</a>
+        <a href="{% url 'register' %}" class="auth-cta">Create account</a>
+      {% endif %}
+      </span>
     </nav>
   </div>
 </header>
@@ -42,7 +57,9 @@
 </main>
 
 <footer class="site-footer">
-  <p>Content on {{ site_name }} is available under a free licence — anyone can edit.</p>
+  <p>Content on {{ site_name }} is available under a free licence.
+    {% if can_edit %}Your account can edit any article.{% elif is_blocked %}Your account is suspended.{% elif is_signed_in %}Your account has read-only access.{% else %}<a href="{% url 'register' %}">Create an account</a> to edit articles.{% endif %}
+  </p>
   <p class="footer-links">
     <a href="{% url 'home' %}">Home</a> ·
     <a href="{% url 'recent_changes' %}">Recent changes</a> ·

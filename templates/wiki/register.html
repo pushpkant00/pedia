@@ -1,0 +1,45 @@
+{% extends 'wiki/base.html' %}
+
+{% block title %}Create account - {{ site_name }}{% endblock %}
+
+{% block content %}
+<div class="auth-page">
+  <div class="auth-card">
+    <h1 class="page-title">Create an account</h1>
+    <p class="auth-intro">
+      An account lets you edit articles and see your own edits in the review queue.
+      Admins publish immediately; editors submit changes for review; viewers read only.
+    </p>
+
+    {% if form.non_field_errors %}
+    <div class="form-errors">{% for error in form.non_field_errors %}<p>{{ error }}</p>{% endfor %}</div>
+    {% endif %}
+
+    <form method="post" class="auth-form">
+      {% csrf_token %}
+      <div class="field">
+        <label for="id_username">Username</label>
+        {{ form.username }}
+        {{ form.username.errors }}
+      </div>
+      <div class="field">
+        <label for="id_password1">Password</label>
+        {{ form.password1 }}
+        {{ form.password1.errors }}
+        {% if form.password1.help_text %}<p class="field-hint">{{ form.password1.help_text }}</p>{% endif %}
+      </div>
+      <div class="field">
+        <label for="id_password2">Confirm password</label>
+        {{ form.password2 }}
+        {{ form.password2.errors }}
+      </div>
+      <div class="form-actions">
+        <button type="submit" class="btn primary">Create account</button>
+        <a class="btn" href="{% url 'home' %}">Cancel</a>
+      </div>
+    </form>
+
+    <p class="auth-switch">Already registered? <a href="{% url 'login' %}">Log in</a>.</p>
+  </div>
+</div>
+{% endblock %}
