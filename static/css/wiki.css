@@ -262,6 +262,48 @@ a.tab { color: var(--link); }
 }
 .article-body th { background: var(--light); }
 
+/* ---------- Infobox (Wikipedia style) ---------- */
+
+.article-body .infobox {
+  float: right;
+  clear: right;
+  width: 320px;
+  margin: 4px 0 16px 22px;
+  background: var(--light);
+  border: 1px solid var(--border);
+  border-collapse: collapse;
+  font-size: 13px;
+  line-height: 1.5;
+}
+.article-body .infobox th,
+.article-body .infobox td {
+  border: none;
+  border-bottom: 1px solid var(--border-light);
+  padding: 5px 9px;
+  font-size: 13px;
+  text-align: left;
+  vertical-align: top;
+  background: transparent;
+}
+.infobox-title {
+  text-align: center;
+  font-weight: 700;
+  font-size: 16px;
+  padding: 9px;
+}
+.infobox-header {
+  text-align: center;
+  font-weight: 700;
+  background: #dfe6f7;
+  color: var(--link);
+}
+.infobox-label { font-weight: 700; width: 46%; }
+.infobox-image { text-align: center; padding: 8px 6px 2px; }
+.infobox-image img { display: block; max-width: 100%; height: auto; margin: 0 auto; }
+.infobox-caption { text-align: center; font-size: 12px; color: var(--muted); padding: 2px 8px 6px; }
+.article-body .infobox tr:last-child th,
+.article-body .infobox tr:last-child td { border-bottom: none; }
+
 .article-body hr {
   border: none;
   border-top: 1px solid var(--border);
@@ -708,6 +750,7 @@ a.tab { color: var(--link); }
   .search-form { order: 3; max-width: none; width: 100%; }
   .main-nav { gap: 12px; flex-wrap: wrap; }
   .toc { float: none; position: static; width: 100%; max-height: none; overflow: visible; margin: 10px 0 16px; }
+  .article-body .infobox { float: none; width: 100%; margin: 10px 0 16px; }
   .article-title { font-size: 27px; }
   .category-index { columns: 1; }
 }

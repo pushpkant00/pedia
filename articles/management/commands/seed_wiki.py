@@ -1,5 +1,6 @@
 from django.core.management.base import BaseCommand
 
+from articles import content as content_mod
 from articles.models import Article, Category
 
 ARTICLES = [
@@ -209,7 +210,23 @@ Mumbai. Several more crossings are proposed or under construction, including the
         'summary': '5.6 km cable-stayed sea bridge linking Bandra and Worli across Mahim Bay in Mumbai.',
         'featured': True,
         'categories': ['Mumbai', 'Bridges'],
+        'update': True,
         'content': '''
+<table class="infobox">
+<tr><th class="infobox-title" colspan="2">Bandra–Worli Sea Link</th></tr>
+<tr><th class="infobox-header" colspan="2">Characteristics</th></tr>
+<tr><th class="infobox-label">Official name</th><td>Rajiv Gandhi Sea Link</td></tr>
+<tr><th class="infobox-label">Type</th><td>Cable-stayed sea bridge</td></tr>
+<tr><th class="infobox-label">Crosses</th><td>Mahim Bay</td></tr>
+<tr><th class="infobox-label">Locale</th><td>Mumbai, Maharashtra</td></tr>
+<tr><th class="infobox-label">Total length</th><td>5.6 km</td></tr>
+<tr><th class="infobox-label">Lanes</th><td>8</td></tr>
+<tr><th class="infobox-label">Longest span</th><td>250 m (twin spans)</td></tr>
+<tr><th class="infobox-header" colspan="2">History</th></tr>
+<tr><th class="infobox-label">Opened</th><td>2009</td></tr>
+<tr><th class="infobox-label">Toll (car)</th><td>₹85</td></tr>
+<tr><th class="infobox-label">Owner</th><td>MSRDC</td></tr>
+</table>
 <p>The <strong>Bandra–Worli Sea Link</strong>, officially the <strong>Rajiv Gandhi Sea
 Link</strong>, is a 5.6 km long, 8-lane cable-stayed bridge that crosses Mahim Bay, linking
 Bandra in the western suburbs of Mumbai with Worli in South Mumbai. Opened in phases from
@@ -246,7 +263,23 @@ Mumbai's Coastal Road, which continues north towards Kandivali.</p>
         'summary': '18.2 km sea bridge connecting Sewri in Mumbai with Navi Mumbai — the longest sea bridge in India.',
         'featured': True,
         'categories': ['Mumbai', 'Bridges'],
+        'update': True,
         'content': '''
+<table class="infobox">
+<tr><th class="infobox-title" colspan="2">Mumbai Trans Harbour Link</th></tr>
+<tr><th class="infobox-header" colspan="2">Characteristics</th></tr>
+<tr><th class="infobox-label">Official name</th><td>Atal Bihari Vajpayee Sewri–Nhava Sheva Atal Setu</td></tr>
+<tr><th class="infobox-label">Type</th><td>Sea bridge, expressway</td></tr>
+<tr><th class="infobox-label">Crosses</th><td>Thane Creek</td></tr>
+<tr><th class="infobox-label">Locale</th><td>Mumbai – Navi Mumbai</td></tr>
+<tr><th class="infobox-label">Total length</th><td>18.2 km</td></tr>
+<tr><th class="infobox-label">Lanes</th><td>6</td></tr>
+<tr><th class="infobox-label">Longest span</th><td>180 m</td></tr>
+<tr><th class="infobox-header" colspan="2">History</th></tr>
+<tr><th class="infobox-label">Opened</th><td>January 2024</td></tr>
+<tr><th class="infobox-label">Toll (car)</th><td>₹200</td></tr>
+<tr><th class="infobox-label">Owner</th><td>MMRDA</td></tr>
+</table>
 <p>The <strong>Mumbai Trans Harbour Link</strong> (<strong>MTHL</strong>), officially the
 <strong>Atal Bihari Vajpayee Sewri–Nhava Sheva Atal Setu</strong> and colloquially known as
 <strong>Atal Setu</strong>, is an 18.2 km, 6-lane expressway bridge connecting Mumbai with
@@ -286,7 +319,21 @@ Bridge</a> crossings.</p>
         'summary': 'Road bridge over Thane Creek linking Mankhurd in Mumbai with Vashi in Navi Mumbai.',
         'featured': False,
         'categories': ['Mumbai', 'Bridges'],
+        'update': True,
         'content': '''
+<table class="infobox">
+<tr><th class="infobox-title" colspan="2">Vashi Bridge</th></tr>
+<tr><th class="infobox-header" colspan="2">Characteristics</th></tr>
+<tr><th class="infobox-label">Also known as</th><td>Thane Creek Bridge (TCB-2)</td></tr>
+<tr><th class="infobox-label">Type</th><td>Box girder road bridge</td></tr>
+<tr><th class="infobox-label">Crosses</th><td>Thane Creek</td></tr>
+<tr><th class="infobox-label">Locale</th><td>Mankhurd – Vashi</td></tr>
+<tr><th class="infobox-label">Carries</th><td>Sion–Panvel Highway, 6 lanes</td></tr>
+<tr><th class="infobox-label">Total length</th><td>1,837.5 m</td></tr>
+<tr><th class="infobox-header" colspan="2">History</th></tr>
+<tr><th class="infobox-label">Opened</th><td>1997</td></tr>
+<tr><th class="infobox-label">Builder</th><td>U.P. State Bridge Corporation</td></tr>
+</table>
 <p>The <strong>Vashi Bridge</strong>, also known as the <strong>Thane Creek Bridge</strong>
 or the <strong>Second Thane Creek Bridge</strong>, is a road bridge across Thane Creek
 connecting the suburb of Mankhurd in Mumbai with Vashi in Navi Mumbai. Opened in 1997, it
@@ -324,7 +371,21 @@ and Navi Mumbai.</p>
         'summary': 'Bridge over Thane Creek connecting Mulund in Mumbai with Airoli in Navi Mumbai, opened 1999.',
         'featured': False,
         'categories': ['Mumbai', 'Bridges'],
+        'update': True,
         'content': '''
+<table class="infobox">
+<tr><th class="infobox-title" colspan="2">Airoli Bridge</th></tr>
+<tr><th class="infobox-header" colspan="2">Characteristics</th></tr>
+<tr><th class="infobox-label">Type</th><td>Slab and girder bridge</td></tr>
+<tr><th class="infobox-label">Crosses</th><td>Thane Creek</td></tr>
+<tr><th class="infobox-label">Locale</th><td>Mulund – Airoli</td></tr>
+<tr><th class="infobox-label">Carries</th><td>6 lanes</td></tr>
+<tr><th class="infobox-label">Main structure</th><td>1,030 m (19 spans)</td></tr>
+<tr><th class="infobox-header" colspan="2">History</th></tr>
+<tr><th class="infobox-label">Opened</th><td>1999</td></tr>
+<tr><th class="infobox-label">Toll (car)</th><td>₹40</td></tr>
+<tr><th class="infobox-label">Builder</th><td>Afcons Infrastructure</td></tr>
+</table>
 <p>The <strong>Airoli Bridge</strong> crosses Thane Creek between Mulund in Mumbai and
 Airoli in Navi Mumbai. Opened in 1999, it was the second road bridge linking Mumbai to Navi
 Mumbai after the <a href="/wiki/vashi-bridge/">Vashi Bridge</a>, and it remains one of the
@@ -360,7 +421,21 @@ further south.</p>
         'summary': 'Historic 1845 causeway across Mahim Creek connecting Mahim and Bandra in Mumbai.',
         'featured': False,
         'categories': ['Mumbai', 'Bridges'],
+        'update': True,
         'content': '''
+<table class="infobox">
+<tr><th class="infobox-title" colspan="2">Mahim Causeway</th></tr>
+<tr><th class="infobox-header" colspan="2">Characteristics</th></tr>
+<tr><th class="infobox-label">Type</th><td>Causeway</td></tr>
+<tr><th class="infobox-label">Crosses</th><td>Mahim Creek</td></tr>
+<tr><th class="infobox-label">Locale</th><td>Mahim – Bandra, Mumbai</td></tr>
+<tr><th class="infobox-label">Length</th><td>about 1 mile</td></tr>
+<tr><th class="infobox-label">Design</th><td>Captain Cruickshank</td></tr>
+<tr><th class="infobox-header" colspan="2">History</th></tr>
+<tr><th class="infobox-label">Opened</th><td>8 April 1845</td></tr>
+<tr><th class="infobox-label">Funded by</th><td>Lady Avabai Jamsetjee Jejeebhoy</td></tr>
+<tr><th class="infobox-label">Toll</th><td>Free (by donation condition)</td></tr>
+</table>
 <p>The <strong>Mahim Causeway</strong> is a historic road across Mahim Creek linking Mahim
 in South Mumbai with Bandra. Opened on 8 April 1845, it was the first permanent land
 connection between the island of Bombay and Salsette Island, and it remains an arterial link
@@ -430,6 +505,16 @@ class Command(BaseCommand):
                 article.categories.set(categories)
                 article.save_with_revision(summary='Initial version')
                 self.stdout.write(self.style.SUCCESS(f'  created: {article.title}'))
+            elif data.get('update'):
+                if article.content != content_mod.process(data['content']) or article.summary != data['summary']:
+                    article.content = data['content']
+                    article.summary = data['summary']
+                    article.is_featured = data['featured']
+                    article.categories.set(categories)
+                    article.save_with_revision(summary='Added infobox')
+                    self.stdout.write(self.style.SUCCESS(f'  updated: {article.title}'))
+                else:
+                    self.stdout.write(f'  current: {article.title}')
             else:
                 self.stdout.write(f'  exists:  {article.title}')
 
