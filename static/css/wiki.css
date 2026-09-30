@@ -342,16 +342,27 @@ a.tab { color: var(--link); }
   color: var(--muted);
 }
 
+/* ---------- Article layout (Wikipedia-style columns) ---------- */
+
+.article-layout.has-toc {
+  display: grid;
+  grid-template-columns: 240px minmax(0, 1fr);
+  column-gap: 24px;
+}
+.has-toc .content-tabs { grid-column: 1 / -1; }
+.has-toc .toc { grid-column: 1; align-self: start; }
+.has-toc .article { grid-column: 2; }
+.has-toc .article-meta { grid-column: 2; }
+
 /* ---------- Table of contents ---------- */
 
 .toc {
-  float: left;
   position: sticky;
   top: 16px;
   width: 240px;
   max-height: calc(100vh - 32px);
   overflow-y: auto;
-  margin: 6px 20px 14px 0;
+  margin: 6px 0 14px;
   padding: 0;
   font-size: 14px;
   line-height: 1.5;
@@ -749,6 +760,7 @@ a.tab { color: var(--link); }
   .header-inner { gap: 12px; }
   .search-form { order: 3; max-width: none; width: 100%; }
   .main-nav { gap: 12px; flex-wrap: wrap; }
+  .article-layout.has-toc { display: block; }
   .toc { float: none; position: static; width: 100%; max-height: none; overflow: visible; margin: 10px 0 16px; }
   .article-body .infobox { float: none; width: 100%; margin: 10px 0 16px; }
   .article-title { font-size: 27px; }
