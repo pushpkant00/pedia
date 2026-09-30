@@ -304,7 +304,11 @@ a.tab { color: var(--link); }
 
 .toc {
   float: left;
+  position: sticky;
+  top: 16px;
   width: 240px;
+  max-height: calc(100vh - 32px);
+  overflow-y: auto;
   background: var(--light);
   border: 1px solid var(--border);
   margin: 6px 20px 14px 0;
@@ -703,7 +707,7 @@ a.tab { color: var(--link); }
   .header-inner { gap: 12px; }
   .search-form { order: 3; max-width: none; width: 100%; }
   .main-nav { gap: 12px; flex-wrap: wrap; }
-  .toc { float: none; width: 100%; margin: 10px 0 16px; }
+  .toc { float: none; position: static; width: 100%; max-height: none; overflow: visible; margin: 10px 0 16px; }
   .article-title { font-size: 27px; }
   .category-index { columns: 1; }
 }
