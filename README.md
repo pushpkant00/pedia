@@ -19,7 +19,7 @@ python3 -m venv --without-pip .venv          # or: python3 -m venv .venv
 .venv/bin/python manage.py migrate
 .venv/bin/python manage.py seed_wiki         # optional demo articles
 
-# 3. Build the JavaScript (only needed when editing src/*.ts)
+# 3. Build the JavaScript (required after cloning and after editing src/*.ts)
 npm install
 npm run build                                # or: npm run watch
 
@@ -42,9 +42,9 @@ The first account you register becomes the admin; optional Django admin:
 3. Install dependencies and run the site (see Quick start above).
 4. Make your changes, then check them:
    ```bash
+   npm install && npm run build   # required once per clone; re-run after touching src/
    .venv/bin/python manage.py check
    .venv/bin/python manage.py test
-   npm run build           # if you touched anything under src/
    ```
 5. Commit with a clear message and open a pull request against `main`.
 
@@ -78,7 +78,7 @@ articles/              models, views, forms, search, content processing
   migrations/          schema + FTS install
 templates/wiki/        all page templates
 src/                   TypeScript sources (wiki, editor, lightbox, selftest)
-static/js/             compiled JS (npm run build output)
+static/js/             compiled JS — build output, gitignored (npm run build)
 static/                wiki.css, vendored Toast UI assets
 media/uploads/         uploaded images
 package.json           npm scripts (build/watch) + TypeScript dev dependency
