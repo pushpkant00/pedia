@@ -164,6 +164,7 @@ search engines to this encyclopedia. See <a href="/wiki/python-programming-langu
         'summary': 'Overview of the major bridges, causeways and sea links of Mumbai.',
         'featured': True,
         'categories': ['Mumbai', 'Bridges'],
+        'update': True,
         'content': '''
 <p><strong>Mumbai</strong> (formerly Bombay) is connected by a network of bridges, causeways
 and sea links spanning Mahim Bay, Thane Creek and the Arabian Sea. Many of these structures
@@ -177,6 +178,16 @@ are landmarks in their own right, carrying hundreds of thousands of vehicles eve
 <tr><td><a href="/wiki/airoli-bridge/">Airoli Bridge</a></td><td>1999</td><td>1.03 km (main structure)</td><td>Thane Creek</td></tr>
 <tr><td><a href="/wiki/bandra-worli-sea-link/">Bandra–Worli Sea Link</a></td><td>2009</td><td>5.6 km</td><td>Mahim Bay</td></tr>
 <tr><td><a href="/wiki/mumbai-trans-harbour-link/">Mumbai Trans Harbour Link</a></td><td>2024</td><td>18.2 km</td><td>Thane Creek</td></tr>
+</table>
+
+<h2 id="builders">Owners, builders and cost</h2>
+<table>
+<tr><th>Bridge</th><th>Owner</th><th>Constructor</th><th>Build period</th><th>Cost</th></tr>
+<tr><td><a href="/wiki/mahim-causeway/">Mahim Causeway</a></td><td>BMC</td><td>Led by Captain Cruickshank</td><td>1843–1845</td><td>₹155,800 (donated)</td></tr>
+<tr><td><a href="/wiki/vashi-bridge/">Vashi Bridge</a></td><td>Government of Maharashtra</td><td>U.P. State Bridge Corporation</td><td>1987–1997</td><td>Not documented</td></tr>
+<tr><td><a href="/wiki/airoli-bridge/">Airoli Bridge</a></td><td>MSRDC</td><td>Afcons Infrastructure</td><td>1994–1999</td><td>₹130 crore</td></tr>
+<tr><td><a href="/wiki/bandra-worli-sea-link/">Bandra–Worli Sea Link</a></td><td>Government of Maharashtra (MSRDC)</td><td>Hindustan Construction Company</td><td>2000–2009</td><td>₹16 billion</td></tr>
+<tr><td><a href="/wiki/mumbai-trans-harbour-link/">Mumbai Trans Harbour Link</a></td><td>MMRDA</td><td>L&amp;T, Tata Projects, Daewoo E&amp;C, Strabag</td><td>2018–2023</td><td>₹17,843 crore</td></tr>
 </table>
 
 <h2 id="historic-crossings">Historic crossings</h2>
@@ -223,13 +234,17 @@ Mumbai. Several more crossings are proposed or under construction, including the
 <tr><th class="infobox-label">Lanes</th><td>8</td></tr>
 <tr><th class="infobox-label">Longest span</th><td>250 m (twin spans)</td></tr>
 <tr><th class="infobox-label">Height (tallest tower)</th><td>128 m</td></tr>
-<tr><th class="infobox-header" colspan="2">History</th></tr>
+<tr><th class="infobox-label">Design life</th><td>100 years</td></tr>
+<tr><th class="infobox-header" colspan="2">Construction and ownership</th></tr>
+<tr><th class="infobox-label">Owner</th><td>Government of Maharashtra (MSRDC)</td></tr>
+<tr><th class="infobox-label">Constructor</th><td>Hindustan Construction Company (HCC)</td></tr>
+<tr><th class="infobox-label">Design and supervision</th><td>Dar Al-Handasah (UK)</td></tr>
+<tr><th class="infobox-label">Main materials</th><td>Prestressed concrete piers, concrete-steel composite deck segments, steel stay cables</td></tr>
 <tr><th class="infobox-label">Construction</th><td>2000–2009</td></tr>
 <tr><th class="infobox-label">Opened</th><td>30 June 2009 (first four lanes)</td></tr>
 <tr><th class="infobox-label">Fully opened</th><td>24 March 2010</td></tr>
 <tr><th class="infobox-label">Construction cost</th><td>₹16 billion</td></tr>
 <tr><th class="infobox-label">Toll (car)</th><td>₹85</td></tr>
-<tr><th class="infobox-label">Owner</th><td>Government of Maharashtra (MSRDC)</td></tr>
 </table>
 <p>The <strong>Bandra–Worli Sea Link</strong>, officially the <strong>Rajiv Gandhi Sea
 Link</strong>, is a 5.6 km long, 8-lane cable-stayed bridge that crosses Mahim Bay, linking
@@ -329,12 +344,16 @@ Kandivali. See also [[Bridges in Mumbai]] and [[Mumbai Trans Harbour Link]].</p>
 <tr><th class="infobox-label">Longest span</th><td>180 m</td></tr>
 <tr><th class="infobox-label">Piers in water</th><td>1,089</td></tr>
 <tr><th class="infobox-label">Design life</th><td>100+ years</td></tr>
-<tr><th class="infobox-header" colspan="2">History</th></tr>
+<tr><th class="infobox-header" colspan="2">Construction and ownership</th></tr>
+<tr><th class="infobox-label">Owner</th><td>MMRDA</td></tr>
+<tr><th class="infobox-label">Funding</th><td>JICA (80% of project cost)</td></tr>
+<tr><th class="infobox-label">Designers</th><td>COWI, PADECO, Dar Al-Handasah, T. Y. Lin International</td></tr>
+<tr><th class="infobox-label">Constructors</th><td>Larsen &amp; Toubro + IHI (pkg 1); Tata Projects + Daewoo E&amp;C (pkg 2); L&amp;T (pkg 3); Strabag (pkg 4)</td></tr>
+<tr><th class="infobox-label">Main materials</th><td>Precast segmental concrete-steel composite girders on 1,089 piers</td></tr>
 <tr><th class="infobox-label">Construction</th><td>April 2018 – December 2023</td></tr>
 <tr><th class="infobox-label">Opened</th><td>12 January 2024</td></tr>
-<tr><th class="infobox-label">Construction cost</th><td>₹17,843 crore</td></tr>
+<tr><th class="infobox-label">Construction cost</th><td>₹17,843 crore (US$1.9 billion)</td></tr>
 <tr><th class="infobox-label">Toll (car)</th><td>₹200 (single), ₹300 (return)</td></tr>
-<tr><th class="infobox-label">Owner</th><td>MMRDA</td></tr>
 </table>
 <p>The <strong>Mumbai Trans Harbour Link</strong> (<strong>MTHL</strong>), officially the
 <strong>Atal Bihari Vajpayee Sewri–Nhava Sheva Atal Setu</strong> and colloquially known as
@@ -424,9 +443,13 @@ truck and ₹1,255 / ₹1,885 for an oversized truck.</p>
 <tr><th class="infobox-label">Locale</th><td>Mankhurd – Vashi</td></tr>
 <tr><th class="infobox-label">Carries</th><td>Sion–Panvel Highway, 6 lanes</td></tr>
 <tr><th class="infobox-label">Total length</th><td>1,837.5 m</td></tr>
-<tr><th class="infobox-header" colspan="2">History</th></tr>
+<tr><th class="infobox-header" colspan="2">Construction and ownership</th></tr>
+<tr><th class="infobox-label">Owner</th><td>Government of Maharashtra (MSRDC nodal agency)</td></tr>
+<tr><th class="infobox-label">Constructor</th><td>U.P. State Bridge Corporation Ltd.</td></tr>
+<tr><th class="infobox-label">Main materials</th><td>Prestressed concrete box girders, balanced cantilever cast-in-situ segments</td></tr>
+<tr><th class="infobox-label">Foundations</th><td>Open foundations on bedrock, laid in the dry</td></tr>
+<tr><th class="infobox-label">Construction</th><td>1987–1997</td></tr>
 <tr><th class="infobox-label">Opened</th><td>1997</td></tr>
-<tr><th class="infobox-label">Builder</th><td>U.P. State Bridge Corporation</td></tr>
 </table>
 <p>The <strong>Vashi Bridge</strong>, also known as the <strong>Thane Creek Bridge</strong>
 or the <strong>Second Thane Creek Bridge</strong>, is a road bridge across Thane Creek
@@ -444,10 +467,25 @@ opened on 9 May 1992.</p>
 on 29 October 2020 after environmental clearances and pandemic delays, and both directions
 were open to traffic by June 2025.</p>
 
-<h2 id="design">Design</h2>
+<h2 id="design">Design and construction</h2>
 <p>The Vashi Bridge is a 1,837.5 m long box girder bridge carrying a six-lane dual
 carriageway, with an emphasis on durability in its construction and design. It runs parallel
 to the closed first Thane Creek Bridge.</p>
+<ul>
+<li><strong>Superstructure</strong> — prestressed concrete (P.S.C.) box girders, one for each
+carriageway, built by the balanced cantilever cast-in-situ segment method.</li>
+<li><strong>Foundations</strong> — open foundations taken down to bedrock, with foundation
+concrete laid in the dry while seawater was pumped out with submersible pumps.</li>
+<li><strong>Protection</strong> — piers in the intertidal zone were coated with epoxy coal tar
+over 6&nbsp;mm mild-steel plate used as lost shuttering.</li>
+<li><strong>Quality</strong> — a formal QA/QC programme ran through planning, design and
+construction, with independent proof consultants for each phase; the bridge won the most
+outstanding concrete structure award.</li>
+</ul>
+<p>The bridge was built by the U.P. State Bridge Corporation Ltd. between 1987 and 1997 and
+has performed without structural problems since opening. The third Thane Creek bridge
+(TCB-3), built alongside it by Larsen &amp; Toubro for the MSRDC, opened in stages in 2023
+and 2025 to add capacity.</p>
 
 <h2 id="route">Route</h2>
 <p>The bridge carries the Sion–Panvel Highway over Thane Creek. With the
@@ -475,10 +513,15 @@ and Navi Mumbai.</p>
 <tr><th class="infobox-label">Locale</th><td>Mulund – Airoli</td></tr>
 <tr><th class="infobox-label">Carries</th><td>6 lanes</td></tr>
 <tr><th class="infobox-label">Main structure</th><td>1,030 m (19 spans)</td></tr>
-<tr><th class="infobox-header" colspan="2">History</th></tr>
+<tr><th class="infobox-label">Total length</th><td>3.85 km (with approaches)</td></tr>
+<tr><th class="infobox-header" colspan="2">Construction and ownership</th></tr>
+<tr><th class="infobox-label">Owner</th><td>Maharashtra State Road Development Corporation (MSRDC)</td></tr>
+<tr><th class="infobox-label">Constructor</th><td>Afcons Infrastructure (Shapoorji Pallonji Group)</td></tr>
+<tr><th class="infobox-label">Main materials</th><td>800 monolithically cast concrete box girders, slab-and-girder deck</td></tr>
+<tr><th class="infobox-label">Construction</th><td>January 1994 – January 1999</td></tr>
 <tr><th class="infobox-label">Opened</th><td>1999</td></tr>
+<tr><th class="infobox-label">Construction cost</th><td>₹130 crore (US$32.5 million)</td></tr>
 <tr><th class="infobox-label">Toll (car)</th><td>₹40</td></tr>
-<tr><th class="infobox-label">Builder</th><td>Afcons Infrastructure</td></tr>
 </table>
 <p>The <strong>Airoli Bridge</strong> crosses Thane Creek between Mulund in Mumbai and
 Airoli in Navi Mumbai. Opened in 1999, it was the second road bridge linking Mumbai to Navi
@@ -486,8 +529,10 @@ Mumbai after the <a href="/wiki/vashi-bridge/">Vashi Bridge</a>, and it remains 
 busiest crossings in the Mumbai Metropolitan Region.</p>
 
 <h2 id="history">History</h2>
-<p>Construction ran from January 1994 to January 1999. The bridge was built by Afcons
-Infrastructure, a company of the Shapoorji Pallonji Group, using 800 box girders. Its
+<p>Construction ran from January 1994 to January 1999 — a five-year build. The bridge was
+built by Afcons Infrastructure, a company of the Shapoorji Pallonji Group, using 800
+monolithically cast box girders of about 800 tonnes each, the first time such girders were
+used in India. Its
 opening spurred the development of the Airoli and Thane–Belapur belt, which has since grown
 into a major information technology and business corridor.</p>
 
@@ -496,7 +541,8 @@ into a major information technology and business corridor.</p>
 <li>Slab and girder design: a 1,030 m main structure of nineteen 50 m spans between two
 40 m end spans, with approach roads taking the crossing to about 3.85 km.</li>
 <li>Six lanes, three in each direction.</li>
-<li>Maintained by the Maharashtra State Road Development Corporation (MSRDC).</li>
+<li>Maintained and tolled by the Maharashtra State Road Development Corporation (MSRDC),
+which also owned the project, built at a cost of about ₹130 crore.</li>
 </ul>
 
 <h2 id="route">Route and tolls</h2>
@@ -524,10 +570,16 @@ further south.</p>
 <tr><th class="infobox-label">Crosses</th><td>Mahim Creek</td></tr>
 <tr><th class="infobox-label">Locale</th><td>Mahim – Bandra, Mumbai</td></tr>
 <tr><th class="infobox-label">Length</th><td>about 1 mile</td></tr>
-<tr><th class="infobox-label">Design</th><td>Captain Cruickshank</td></tr>
-<tr><th class="infobox-header" colspan="2">History</th></tr>
+<tr><th class="infobox-label">Design</th><td>Captain Cruickshank, Engineers</td></tr>
+<tr><th class="infobox-label">In service</th><td>1845 – present (180+ years)</td></tr>
+<tr><th class="infobox-header" colspan="2">Construction and ownership</th></tr>
+<tr><th class="infobox-label">Owner</th><td>Brihanmumbai Municipal Corporation (as part of S.V. Road)</td></tr>
+<tr><th class="infobox-label">Constructor</th><td>Captain Cruickshank of the Engineers</td></tr>
+<tr><th class="infobox-label">Main materials</th><td>Stone masonry with a 100 ft central stone arch, 22 ft wide carriageway</td></tr>
+<tr><th class="infobox-label">Construction</th><td>1843–1845 (about 20 months)</td></tr>
 <tr><th class="infobox-label">Opened</th><td>8 April 1845</td></tr>
 <tr><th class="infobox-label">Funded by</th><td>Lady Avabai Jamsetjee Jejeebhoy</td></tr>
+<tr><th class="infobox-label">Construction cost</th><td>₹155,800 (donated), plus ₹22,000 for the approach road</td></tr>
 <tr><th class="infobox-label">Toll</th><td>Free (by donation condition)</td></tr>
 </table>
 <p>The <strong>Mahim Causeway</strong> is a historic road across Mahim Creek linking Mahim
