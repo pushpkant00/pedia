@@ -19,7 +19,11 @@ python3 -m venv --without-pip .venv          # or: python3 -m venv .venv
 .venv/bin/python manage.py migrate
 .venv/bin/python manage.py seed_wiki         # optional demo articles
 
-# 3. Run
+# 3. Build the JavaScript (only needed when editing src/*.ts)
+npm install
+npm run build                                # or: npm run watch
+
+# 4. Run
 .venv/bin/python manage.py runserver
 ```
 
@@ -40,6 +44,7 @@ The first account you register becomes the admin; optional Django admin:
    ```bash
    .venv/bin/python manage.py check
    .venv/bin/python manage.py test
+   npm run build           # if you touched anything under src/
    ```
 5. Commit with a clear message and open a pull request against `main`.
 
@@ -51,7 +56,7 @@ fix bugs, or polish the editor.
 
 | Feature | Where |
 |---|---|
-| Article pages with rich text | Toast UI editor (CDN), server-side sanitised with `nh3` |
+| Article pages with rich text | Toast UI editor (vendored, no CDN), server-side sanitised with `nh3` |
 | Create & edit | `/new/`, `/wiki/<slug>/edit/` |
 | Search | SQLite FTS5 with highlighted snippets (`articles/search.py`) |
 | Table of contents | Auto-generated from headings, collapsible, scrollspy |
@@ -72,8 +77,12 @@ articles/              models, views, forms, search, content processing
   search.py            FTS5 search + LIKE fallback
   migrations/          schema + FTS install
 templates/wiki/        all page templates
-static/                wiki.css, editor.js, wiki.js, vendored Toast UI assets
+src/                   TypeScript sources (wiki, editor, lightbox, selftest)
+static/js/             compiled JS (npm run build output)
+static/                wiki.css, vendored Toast UI assets
 media/uploads/         uploaded images
+package.json           npm scripts (build/watch) + TypeScript dev dependency
+tsconfig.json          tsc configuration (src/ → static/js/)
 ```
 
 ## Notes
@@ -83,7 +92,7 @@ media/uploads/         uploaded images
 - Every save records a revision; edit summary, diff and revert are built on that.
 - Editors' saves are queued at `/review/` until an admin approves them; admins
   publish immediately.
-- The editor requires internet access (Toast UI CDN); if it cannot load, a plain
+- The editor loads Toast UI from `static/vendor/`; if it cannot load, a plain
   HTML textarea is shown instead.
 - To move to PostgreSQL later, change `DATABASES` in `wiki/settings.py`; the
   search module falls back to `LIKE` automatically if FTS5 is unavailable.

@@ -1,0 +1,13 @@
+{
+  "name": "pedia",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Build tooling for the Pedia wiki front-end (TypeScript -> static/js).",
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "watch": "tsc -p tsconfig.json --watch"
+  },
+  "devDependencies": {
+    "typescript": "^5.9.3"
+  }
+}
